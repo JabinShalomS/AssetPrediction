@@ -1,0 +1,8 @@
+/__MACOSX
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env/
+virtualenv/
