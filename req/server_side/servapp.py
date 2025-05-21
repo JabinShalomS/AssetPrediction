@@ -50,7 +50,7 @@ engine = create_engine(f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_N
 CORS(app)
 # Path to the Excel file (make sure it's in the same directory as the app.py)
 # EXCEL_FILE_PATH = os.path.join(os.path.dirname(__file__), 'data.xlsx')
-EXCEL_FILE_PATH = r'D:\GenAI\AssetPrediction_django\AssetPredictionLavanyaCode\asset_ver1\req\data\srp_new.xlsx'  
+EXCEL_FILE_PATH = r'C:\Users\haris\ABB Hackathon\AssetPrediction\req\data\srp_new.xlsx'  
 
 @app.route('/update_excel', methods=['POST'])
 def update_excel():
@@ -174,7 +174,7 @@ def get_excel_data():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-EXCEL_FILE_PATH1 = r'D:\GenAI\AssetPrediction_django\AssetPredictionLavanyaCode\asset_ver1\req\data\gea_new.xlsx'  
+EXCEL_FILE_PATH1 = r'C:\Users\haris\ABB Hackathon\AssetPrediction\req\data\gea_new.xlsx'  
 @app.route('/dashboardpqgea', methods=['GET'])
 def get_excel_data6():
     if not os.path.exists(EXCEL_FILE_PATH1):
