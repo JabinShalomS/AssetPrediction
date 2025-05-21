@@ -1,0 +1,585 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Prediction</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <style>
+    /* ...existing code... */
+    .left-sidebar {
+      box-shadow: 8px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ...existing code... */
+  </style>
+  <style>
+    table tbody tr:hover {
+      background-color: #f0f8ff;
+      /* light primary color*/
+    }
+
+    .clicked-row {
+      background-color: #f0f8ff;
+      /* Change color for clicke row*/
+    }
+  </style>
+  <style>
+    /* ...existing code... */
+    .row1-box-shadow {
+      box-shadow: -8px -8px 8px rgba(0, 0, 0, 0.1), 8px 8px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ...existing code... */
+  </style>
+  {% comment %}
+  <script>console.log("HI")</script> {% endcomment %}
+  <script>
+
+
+  </script>
+</head>
+
+<body>
+
+
+
+  <!-- Existing content -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+              class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
+              class="ti ti-x fs-8"></i></div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <!-- <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li> -->
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/src/html/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">SRP in review</span>
+              </a>
+            </li>
+    <li class="sidebar-item">
+              <a class="sidebar-link" href="/approved/srp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approved SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">GEA</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approve GEA</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="/catalogue" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Catalogue</span>
+              </a>
+            </li> -->
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/inventory" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Inventory</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/catalogue/refresh" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Catalogue refresh</span>
+              </a>
+            </li>
+
+
+          </ul>
+
+
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+
+    <div class="body-wrapper">
+
+
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Search -->
+            <ul class="navbar-nav">
+              <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                  <i class="ti ti-menu-2"></i>
+
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                  <i class="ti ti-bell-ringing"></i>
+                  <div class="notification bg-primary rounded-circle"></div>
+                </a>
+              </li>
+
+
+
+
+            </ul>
+            <!-- <a href="" class="btn btn-primary me-2">Approval pending</a> -->
+            <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <div class="dropdown mx-3">
+                  <button id='dropDownMenuButton' class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <!-- Select country -->
+                    <!-- First country will be displayed by default -->
+                  </button>
+                  <ul id='countryDropdown' class="dropdown-menu">
+                    <!-- <li><a class="dropdown-item" href="#">Korea</a></li>
+                      <li><a class="dropdown-item" href="#">Belgium</a></li> -->
+                  </ul>
+                </div>
+
+  <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a>                <li class="nav-item dropdown"> -->
+                  <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35"
+                      class="rounded-circle">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                    <div class="message-body">
+                      <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                        <i class="ti ti-user fs-6"></i>
+                        <p class="mb-0 fs-3">My Profile</p>
+                      </a>
+                      <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                          <i class="ti ti-mail fs-6"></i>
+                          <p class="mb-0 fs-3">My Account</p>
+                        </a> -->
+                      <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                          <i class="ti ti-list-check fs-6"></i>
+                          <p class="mb-0 fs-3">My Task</p>
+                        </a> -->
+                      <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
+              <!-- Topbar Navbar -->
+
+
+          </nav>
+          </header>
+          <!--  Header End -->
+          <div class="container-fluid">
+            <!--  Row 1 -->
+            <div class="row">
+              <div class="col-lg-8 d-flex align-items-strech">
+                <div class="card w-100 row1-box-shadow">
+                  <div class="card-body">
+                    <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                      <div class="mb-3 mb-sm-0">
+                        <h5 class="card-title fw-semibold">Stock Overview</h5>
+                      </div>
+                      <div>
+                        <select class="form-select">
+                          <option value="1">2-H 2024</option>
+                          <option value="2">1-H 2025</option>
+                          <option value="3">2-H 2025</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div id="chart"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <!-- Yearly Breakup -->
+                    <div class="card row1-box-shadow overflow-hidden">
+                      <div class="card-body p-4">
+                        <h5 class="card-title mb-9 fw-semibold">Quarterly Trend(current vs Last Quarter)</h5>
+                        <div class="row align-items-center">
+                          <div class="col-8">
+                            <h4 class="fw-semibold mb-3">406</h4>
+                            <div class="d-flex align-items-center mb-3">
+                              <span
+                                class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-arrow-up-left text-success"></i>
+                              </span>
+                              <p class="text-dark me-1 fs-3 mb-0">+7%</p>
+                              <p class="fs-3 mb-0">more parts acquired</p>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <div class="me-4">
+                                <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
+                                <span class="fs-2">Q3</span>
+                              </div>
+                              <div>
+                                <span class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
+                                <span class="fs-2">Q4</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-4">
+                            <div class="d-flex justify-content-center">
+                              <div id="breakup"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">
+                    <!-- Monthly Earnings -->
+                    <div class="card row1-box-shadow">
+                      <div class="card-body">
+                        <div class="row alig n-items-start">
+                          <div class="col-8">
+                            <h5 class="card-title mb-9 fw-semibold">Pending open Tasks</h5>
+                            <h4 class="fw-semibold mb-3">9</h4>
+                            <div class="d-flex align-items-center pb-1">
+                              <span
+                                class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                                <i class="ti ti-arrow-down-right text-danger"></i>
+                              </span>
+                              <p class="text-dark me-1 fs-3 mb-0">-10.2%</p>
+                              <p class="fs-3 mb-0">Since last month</p>
+                            </div>
+                          </div>
+                          <!-- <div class="col-4">
+                        <div class="d-flex justify-content-end">
+                          <div
+                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                            <i class="ti ti-currency-dollar fs-6"></i>
+                          </div>
+                        </div>
+                      </div> -->
+                        </div>
+                      </div>
+                      <div id="earning"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-lg-12 d-flex align-items-stretch">
+                <div class="card w-100 row1-box-shadow">
+                  <div class="card-body p-4">
+                    <div class="form-group row">
+                      <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">Predicted
+                        Quantity</label>
+                      <div class="input-group">
+                        <input class="form-control border-end-0 border rounded-pill" type="text"
+                          placeholder="Search here ..." id="searchInput" onkeyup="searchTable()">
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table text-nowrap mb-0 align-middle" id="predQuantityTable">
+                        <thead class="text-dark fs-4">
+                          <tr>
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0">Part Number</h6>
+                            </th>
+                            <!-- <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Location</h6>
+                        </th> -->
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Model Name</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0">Location</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Quantity</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> AI Analysis</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Avg Demand</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Pending Task</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Instock</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Quantity on order</h6>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col-lg-12 d-flex align-items-stretch">
+                <div class="card w-100 row1-box-shadow">
+                  <div class="card-body p-4">
+                    <div class="form-group row">
+                      <label for="colFormLabelLg" class="col-lg-3 col-form-label col-form-label-lg">EOL Devices</label>
+                      <div class="input-group">
+                        <input class="form-control border-end-0 border rounded-pill" type="text"
+                          placeholder="Search here ..." id="searchInput" onkeyup="searchTable()">
+                      </div>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table text-nowrap mb-0 align-middle" id="EOLTable">
+                        <thead class="text-dark fs-4">
+                          <tr>
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0">Part Number</h6>
+                            </th>
+                            <!-- <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Location</h6>
+                        </th> -->
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> New Part Number</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0">Location</h6>
+                            </th>
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Quantity</h6>
+                            </th>
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Unit Cost</h6>
+                            </th>
+
+                            <th class="border-bottom-0">
+                              <h6 class="fw-semibold mb-0"> Currency</h6>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto my-1">
+                <button type="submit" id="submit-button" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/sidebarmenu.js' %}"></script>
+      <script src="{% static 'js/app.min.js' %}"></script>
+      <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+      <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+      <script src="{% static 'js/dashboard.js' %}"></script>
+      <script>
+
+        function searchTable() {
+          // Get input value
+          var input = document.getElementById('searchInput').value.toUpperCase();
+
+          // getting table and rows
+          var table = document.getElementById('predQuantityTable');
+          var tr = table.getElementsByTagName('tr');
+
+          for (var i = 1; i < tr.length; i++) {
+            var tdArray = tr[i].getElementsByTagName('td');
+            var found = false;
+
+            for (var j = 0; j < tdArray.length; j++) {
+              if (tdArray[j]) {
+                var textValue = tdArray[j].textContent || tdArray[j].innerText;
+                if (textValue.toUpperCase().indexOf(input) > -1) {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            tr[i].style.display = found ? "" : "none";
+          }
+        }
+      </script>
+
+      <script>
+        const countries = ['Poland'];
+
+        function renderDropdown() {
+          const dropdownMenu = document.getElementById('countryDropdown');
+          dropdownMenu.innerHTML = '';
+
+          countries.forEach((country, index) => {
+            const listItem = document.createElement('li');
+            const anchorItem = document.createElement('a');
+            anchorItem.classList.add('dropdown-item');
+            anchorItem.href = '#';
+            anchorItem.innerText = country;
+            anchorItem.onclick = function () {
+              selectCountry(country);
+            };
+            listItem.appendChild(anchorItem);
+            dropdownMenu.appendChild(listItem);
+
+            if (index === 0) {
+              selectCountry(country);
+            }
+          })
+        }
+
+        function selectCountry(country) {
+          document.getElementById('dropDownMenuButton').innerText = country;
+        }
+
+        renderDropdown();
+      </script>
+
+      <script>
+        // Listen for the submit button click
+        document.getElementById('submit-button').addEventListener('click', function () {
+          // Get the EOL table
+          const eolTable = document.getElementById('EOLTable');
+
+          // Check if any "New Part Number" field has been edited
+          const rows = eolTable.getElementsByTagName('tr');
+          let isEdited = false;
+
+          for (let i = 1; i < rows.length; i++) { // Skip the header row
+            const newPartNumberCell = rows[i].querySelector('td:nth-child(2) input'); // Assuming the 2nd column is editable
+            if (newPartNumberCell && newPartNumberCell.value.trim() !== '') {
+              isEdited = true;
+              break;
+            }
+          }
+
+          // If edited, hide the table
+          if (isEdited) {
+            eolTable.style.display = 'none';
+
+            // Add a static entry to the Predicted Quantity table
+            const predQuantityTable = document.getElementById('predQuantityTable').getElementsByTagName('tbody')[0];
+            const newRow = predQuantityTable.insertRow();
+
+            // Add cells and static data
+            const partNumberCell = newRow.insertCell(0);
+            const modelNameCell = newRow.insertCell(1);
+            const locationCell = newRow.insertCell(2);
+            const quantityCell = newRow.insertCell(3);
+            const aiAnalysisCell = newRow.insertCell(4);
+            const unitCostCell = newRow.insertCell(5);
+            const totalCostCell = newRow.insertCell(6);
+            const currencyCell = newRow.insertCell(7);
+
+            partNumberCell.textContent = '4XJ1M77973';
+            modelNameCell.textContent = '14-inch Bright Screen Privacy Filter';
+            locationCell.textContent = '9AAE104087ABB';
+            quantityCell.textContent = '1';
+            aiAnalysisCell.textContent = '0';
+            unitCostCell.textContent = '147.65';
+            totalCostCell.textContent = '147.65';
+            currencyCell.textContent = 'PLN';
+          }
+        });
+      </script>
+
+      <script src="{% static 'js/gea.js' %}"></script>
+</body>
+
+</html>
+
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <span class="text-muted">
+          Copyright ©
+          <script>
+            document.write(new Date().getFullYear())
+          </script> Wipro Technologies Limited
+        </span>
+      </div>
+    </div>
+  </div>
+</footer>

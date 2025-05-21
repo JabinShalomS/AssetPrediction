@@ -1,0 +1,442 @@
+.background{
+        background-color: #49BEFF;
+     }
+.inputWidth{
+        min-width: 50%;
+        width: 50%;
+      }
+
+      .container {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1000px;
+}
+.filter-tabs {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping of filter tabs */
+}
+.filter-group {
+    position: relative;
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 10px; /* Added space between rows */
+}
+.filter-title {
+    cursor: pointer;
+    padding: 10px 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    z-index: 10; /* Ensure dropdown is above other elements */
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 200px;
+    max-height: 200px;
+    overflow-y: auto; /* Enables scrolling */
+    border: 1px solid #ccc;
+    top: 35px; /* Adjust position below the filter title */
+}
+.dropdown.show {
+    display: block;
+}
+.dropdown label {
+    display: block;
+    margin: 5px 0;
+    cursor: pointer;
+}
+.sort-container {
+    margin-bottom: 15px;
+}
+.sort-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 120px;
+}
+.product {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px; /* Increased padding for larger tiles */
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    position: relative; /* Added for positioning the action dots */
+    cursor: pointer; /* Indicate clickable */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+.product:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+}
+.product img {
+    width: 150px; /* Increased image size */
+    height: 150px; /* Increased image size */
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+.product-details {
+    flex-grow: 1;
+}
+.product-details h3 {
+    font-size: 18px; /* Increased font size */
+    margin: 0;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.product-details p {
+    margin: 0;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 14px; /* Adjusted font size for details */
+}
+.product-actions {
+    position: absolute; /* Changed to absolute to position it in the corner */
+    top: 10px;
+    right: 10px;
+}
+.dots {
+    cursor: pointer;
+    font-size: 14px; /* Reduced size for dots */
+    color: #007bff;
+    line-height: 0; /* Centers the dots */
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 30px;
+    background-color: #ffffff;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    z-index: 1;
+    padding: 10px;
+    border-radius: 8px;
+    min-width: 120px;
+}
+.dropdown-menu button {
+    background: #007bff; /* Stylish button background */
+    border: none;
+    color: white; /* White text */
+    padding: 10px; /* Padding for buttons */
+    width: 100%;
+    text-align: center; /* Center text */
+    border-radius: 4px; /* Rounded corners */
+    margin: 5px 0; /* Spacing between buttons */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+.dropdown-menu button:hover {
+    background: #0056b3; /* Darker on hover */
+}
+/* Tag Styles */
+.selected-filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+.filter-tag {
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .product img {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    .product-actions {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+}
+/* Popup styling */
+/* Popup styling */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    backdrop-filter: blur(5px); /* Slight blur effect for modern look */
+}
+
+.popup-content {
+    background-color: #fff; /* Clean white background */
+    margin: 10% auto; /* Vertical and horizontal centering */
+    padding: 25px;
+    border-radius: 12px; /* Rounded corners for smoothness */
+    width: 50%; /* Adjust width for responsiveness */
+    max-width: 600px; /* Ensure it doesn't get too large */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    position: relative; /* For close button positioning */
+    font-family: 'Nunito', sans-serif; /* Match font with the rest of the page */
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    grid-gap: 20px; /* Increased spacing between elements for better readability */
+    margin-bottom: 20px;
+}
+
+.popup-grid div {
+    color: #333; /* Darker text for clarity */
+    font-weight: 600; /* Slightly bold for labels */
+}
+
+.popup-grid input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Border matches the rest of the page */
+    border-radius: 6px;
+    font-size: 14px; /* Consistent font size */
+    color: #333; /* Dark text for readability */
+}
+
+.popup-notice {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic; /* Italicized for emphasis */
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    background-color: #007bff; /* Primary blue color for consistency */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Close button */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    cursor: pointer;
+}
+/* Popup styling */
+.popup {
+    display: none; /* Hidden by default, shown when 'display: block' */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 500px; /* Width of the popup */
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Add some shadow */
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns */
+    gap: 10px; /* Space between grid items */
+    margin-bottom: 20px; /* Space below the grid */
+}
+
+.popup-grid div, /* Style for grid items */
+input[type="text"] {
+    padding: 10px; /* Add padding */
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 4px; /* Round corners */
+}
+
+input[type="text"] {
+    width: 100%; /* Make input full width */
+}
+
+.popup-notice {
+    font-size: 0.9em; /* Slightly smaller text */
+    color: #555; /* Gray color for notice */
+}
+
+.save-button {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 15px; /* Padding for button */
+    border-radius: 4px; /* Round corners */
+    cursor: pointer; /* Pointer on hover */
+    font-size: 1em; /* Button text size */
+}
+
+.save-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.label-small {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.label-bold {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 10px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+.label-small {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.label-bold {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-column-gap: 20px; /* Space between columns */
+    grid-row-gap: 10px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+.label-small {
+    font-size: 12px;
+    color: #666;
+}
+
+.label-bold {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns for headings and inputs */
+    grid-column-gap: 20px; /* Space between columns */
+    grid-row-gap: 10px;
+    align-items: center; /* Aligns the items in the grid vertically */
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+.label-small {
+    font-size: 12px;
+    color: #666;
+    border: none; /* Ensures no borders are applied */
+}
+
+.label-bold {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.popup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns for headings and inputs */
+    grid-column-gap: 20px; /* Space between columns */
+    grid-row-gap: 10px;
+    align-items: center; /* Aligns the items in the grid vertically */
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Input box styling */
+    border-radius: 4px;
+}
+.label-small {
+    font-size: 12px;
+    color: #666;
+    border: none;
+    border-color: white;  /* Ensures no border is applied */
+    padding: 0;    /* Optional: Adjust padding if needed */
+    margin: 0;     /* Optional: Adjust margin if needed */
+    box-shadow: none;  /* Ensures no shadow or other border effects */
+}
+
+input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Keep border for input fields */
+    border-radius: 4px;
+}

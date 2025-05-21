@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Prediction</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/wipro_logo.png" />
+  <link rel="stylesheet" href="../assets/css/styles.min.css" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div>
+          <div class="brand-logo d-flex align-items-center justify-content-between"><a href="./index.html" class="text-nowrap logo-img"><img src="../assets/images/logos/wipro_logo.png" width="50" alt="" /><span class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i class="ti ti-x fs-8"></i></div>
+          </div>
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-layout-dashboard"></i>
+                  </span>
+                  <span class="hide-menu">Dashboard</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-analyze"></i>
+                  </span>
+                  <span class="hide-menu">SRP in review</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./excel.html" aria-expanded="false" style="pointer-events: none;">
+                  <span>
+                    <i class="ti ti-cloud-upload"></i>
+                  </span>
+                  <span class="hide-menu">Upload Excel</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="./inventory.html" aria-expanded="false">
+                  <span>
+                    <i class="ti ti-address-book"></i>
+                  </span>
+                  <span class="hide-menu">Inventory</span>
+                </a>
+              </li>
+        
+            </ul>
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+        <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <!--  Header End -->
+      <div class="container-fluid">
+        <div class="row">
+          <h3 class="card-title fw-bold mb-4">SRP in review for : Korea</h3>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 d-flex align-items-stretch">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4">Predicted Quantity</h5>
+                <div class="table-responsive">
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4" id="table-header"></thead>
+                    <tbody id="table-body"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-auto my-1">
+            <button type="submit" id="submit-button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Start -->
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <span class="text-muted">
+            Copyright ©
+            <script>
+              document.write(new Date().getFullYear())
+            </script> Wipro Technologies Limited
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer End -->
+
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/sidebarmenu.js"></script>
+  <script src="../assets/js/app.min.js"></script>
+  <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../assets/js/data.js"></script>
+
+  <script>
+    var headers = Object.keys(predictedQuantity[0]);
+    var headerRow = $('<tr>');
+    headers.forEach(function (header) {
+      headerRow.append($('<th style="text-transform: capitalize;">').text(header));
+    });
+    $('#table-header').append(headerRow);
+
+    predictedQuantity.forEach(function (item) {
+      var row = $('<tr>');
+      headers.forEach(function (header) {
+        var cellValue = item[header];
+        if (typeof cellValue === 'object' && cellValue !== null) {
+          cellValue = cellValue.part_number || '';
+        }
+
+        // Check if the header is 'predicted_quantity' to add an input tag
+        if (header === 'predicted_quantity') {
+          // Create an input tag for the predicted quantity
+          var input = $('<input class="form-control inputWidth" >').attr('type', 'text').val(cellValue);
+          row.append($('<td>').append(input));
+        } else {
+          // Otherwise, just add the text as usual
+          row.append($('<td>').text(cellValue));
+        }
+      });
+      $('#table-body').append(row);
+    });
+
+    // Change button color when clicked
+    $('#submit-button').on('click', function() {
+      $(this).css({
+        'background-color': 'green',  // Change the color to green
+        'border-color': 'green'
+      });
+    });
+  </script>
+
+</body>
+
+</html>

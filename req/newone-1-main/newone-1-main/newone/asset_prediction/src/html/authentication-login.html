@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Prediction</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/logos/wipro_logo.png" />
+  <link rel="stylesheet" href="../assets/css/styles.min.css" />
+  <style>
+ 
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+ 
+ 
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #e9ecef;
+      text-align: center;
+      padding: 10px 0;
+    }
+ 
+   
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+ 
+ 
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+    }
+ 
+ 
+    .div-left {
+      flex: 1;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+ 
+    .div-right {
+      flex: 2;
+      background-color: #28435f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+ 
+ 
+    .center-content {
+      text-align: center;
+    }
+ 
+ 
+    .center-content img {
+      width: 80%;
+    }
+ 
+    .center-content h1 {
+      font-weight: bold;
+      font-size: rem;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+   
+    <div class="content-wrapper">
+ 
+      <div class="div-left">
+        <div class="center-content">
+          <img src="../assets/images/logos/Frame 115 (1).png" alt="Wipro Logo" />
+          <h1 class="fw-bold">Asset Prediction</h1>
+        </div>
+      </div>
+      <div class="div-right ">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="text-center d-flex align-items-center justify-content-center py-3 w-100">
+              <span class="ms-1 fw-bold fs-5">Asset Prediction</span>
+            </div>
+            <p class="text-center mt-2 fs-4">
+              Predicting asset availability and usage based on historical data and trends.
+            </p>
+            <form>
+              <a href="javascript:void(0)" onclick="handleSignIn()" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" style="background-color: #28435f;">Sign In with Azure</a>
+              <div class="form-check d-flex align-items-center justify-content-left mt-2">
+                <input type="checkbox" class="form-check-input me-1" id="rememberMe">
+                <label class="form-check-label fs-4" for="rememberMe">Remember me</label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.21.0/js/msal-browser.min.js"></script>
+  <script type="text/javascript">
+    const msalConfig = {
+      auth: {
+        clientId: "4d3a5683-a242-458f-ad31-3c2e81e21ae1",
+        authority: "https://login.microsoftonline.com/f5791d91-daca-4d28-8700-680f7a2f8b6a",
+        redirectUri: "http://localhost:3000/src/html/",
+      },
+      cache: {
+        cacheLocation: "localStorage",
+        storeAuthStateInCookie: false,
+      }
+    };
+
+    const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+    const loginRequest = {
+      scopes: ["User.Read"]
+    };
+
+    function handleSignIn() {
+      msalInstance.loginPopup(loginRequest)
+        .then((loginResponse) => {
+          console.log('Login successful:', loginResponse);
+          window.location.href = 'http://localhost:3000/src/html/';
+        })
+        .catch((error) => {
+          console.error('Login failed:', error);
+        });
+    }
+  </script>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">
+        Copyright © 
+        <script>document.write(new Date().getFullYear())</script> Wipro Technologies Limited
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

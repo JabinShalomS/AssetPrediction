@@ -1,0 +1,341 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asset Prediction</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+    <script src="{% static 'js/inventory.js' %}" defer></script>
+    
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/catelogue.css' %}">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <style>
+    /* ...existing code... */
+    .left-sidebar {
+      box-shadow: 8px 0 8px rgba(0, 0, 0, 0.1);
+    }
+    /* ...existing code... */
+  </style>
+</head>
+
+<body>
+    <!-- Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/" class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt=""/><span class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a><div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i class="ti ti-x fs-8"></i></div></div>
+              <!-- Sidebar navigation-->
+              <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                <ul id="sidebarnav">
+                  <!-- <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Home</span>
+                  </li> -->
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/src/html/" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-layout-dashboard"></i>
+                      </span>
+                      <span class="hide-menu">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/srp/dashboard" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">SRP</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/srp/approve" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">SRP in review</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/gea/dashboard" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">GEA</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/gea/approve" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">Approve GEA</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/catalogue" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">Catalogue</span>
+                    </a>
+                  </li>
+          
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/inventory" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">Inventory</span>
+                    </a>
+                  </li>
+                 
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/catalogue/refresh" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">Catalogue refresh</span>
+                    </a>
+                  </li>
+                
+        
+                </ul>
+                
+      
+      
+              </nav>
+              <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+          </aside>
+        <!-- Sidebar End -->
+        <!-- Main wrapper -->
+        <div class="body-wrapper">
+
+ 
+          <div id="content-wrapper" class="d-flex flex-column">
+    
+            <!-- Main Content -->
+            <div id="content">
+    
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+    
+                    <!-- Topbar Search -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                          <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                            <i class="ti ti-menu-2"></i>
+                            
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                            <i class="ti ti-bell-ringing"></i>
+                            <div class="notification bg-primary rounded-circle"></div>
+                          </a>
+                        </li>
+                        
+                        
+                        
+                        
+                      </ul>
+                      <a href=""  class="btn btn-primary me-2">Approval pending</a>
+                      <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                          <div class="dropdown mx-3">
+                            <button id='dropDownMenuButton' class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                              <!-- Select country -->
+                              <!-- First country will be displayed by default -->
+                            </button>
+                            <ul id='countryDropdownlist' class="dropdown-menu">
+                              <!-- <li><a class="dropdown-item" href="#">Korea</a></li>
+                              <li><a class="dropdown-item" href="#">Belgium</a></li> -->
+                            </ul>
+                          </div>
+                          
+                          <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a> -->
+                          <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                              <div class="message-body">
+                                <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                  <i class="ti ti-user fs-6"></i>
+                                  <p class="mb-0 fs-3">My Profile</p>
+                                </a>
+                                <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                  <i class="ti ti-mail fs-6"></i>
+                                  <p class="mb-0 fs-3">My Account</p>
+                                </a> -->
+                                <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                  <i class="ti ti-list-check fs-6"></i>
+                                  <p class="mb-0 fs-3">My Task</p>
+                                </a> -->
+                                <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+    
+                    <!-- Topbar Navbar -->
+                    
+    
+                </nav>
+              </header>
+            <!-- Header End -->
+            <div class="container-fluid">
+        <!-- Selected Filters -->
+        <div class="selected-filters" id="selectedFilters"></div>
+
+        <!-- Filter options as tabs -->
+        <div class="filter-tabs">
+          <div class="filter-group">
+              <div class="filter-title" onclick="toggleDropdown('productDropdown')">Product Type</div>
+              <div id="productDropdown" class="dropdown"></div>
+          </div>
+
+          <div class="filter-group">
+              <div class="filter-title" onclick="toggleDropdown('countryDropdown')">Country</div>
+              <div id="countryDropdown" class="dropdown"></div>
+          </div>
+
+          <div class="filter-group">
+              <div class="filter-title" onclick="toggleDropdown('categoryDropdown')">Category</div>
+              <div id="categoryDropdown" class="dropdown"></div>
+          </div>
+
+          <div class="filter-group">
+              <div class="filter-title" onclick="toggleDropdown('subcategoryDropdown')">Subcategory</div>
+              <div id="subcategoryDropdown" class="dropdown"></div>
+          </div>
+
+          <div class="filter-group">
+              <label for="sortBy">Sort by Price:</label>
+              <select id="sortBy" class="sort-select" onchange="applyFilter()">
+                  <option value="">Select</option>
+                  <option value="asc">Low to High</option>
+                  <option value="desc">High to Low</option>
+              </select>
+          </div>
+      </div>
+
+      <div id="productGrid">
+        <!-- Product data will be dynamically rendered here -->
+    </div>
+            </div>
+        </div>
+
+        <div id="renamePopup" class="popup" style="display: none;">
+          <div class="popup-content">
+              <span class="close" onclick="closeRenamePopup()">&times;</span>
+              <div class="popup-grid">
+                  <!-- Row 1: Headings -->
+                  <div class="label-small" style="font-weight: normal; border: none;">Existing Part Number</div>
+                  <div class="label-small" style="font-weight: normal; border: none;">New Part Number</div>
+      
+                  <!-- Row 2: Existing Part Number and New Part Number Input -->
+                  <div class="label-bold" id="existingPartName"></div>
+                  <input type="text" id="newPartNumber" />
+      
+                  <!-- Row 3: Existing Product Name and New Product Name Input -->
+                  <div class="label-small" style="font-weight: normal; border: none;">Existing Product Name</div>
+                  <div class="label-small" style="font-weight: normal; border: none;">New Product Name</div>
+      
+                  <div class="label-bold" id="existingProductName"></div>
+                  <input type="text" id="newProductName" />
+      
+                  <!-- Row 4: Stock Info -->
+                  <div class="label-small" style="font-weight: normal; border: none;">In Stock:</div>
+                  <div class="label-bold" id="partStock"></div>
+              </div>
+      
+              <p class="popup-notice">The existing part will be replaced with the new part after the existing stock is finished.</p>
+              <button class="save-button" onclick="saveNewName()">Save</button>
+          </div>
+      </div>
+        <!-- Footer -->
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <span class="text-muted">
+                            Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> Wipro Technologies Limited
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script>
+      const countries = ['Poland'];
+   
+      function renderDropdown(){
+        const dropdownMenu = document.getElementById('countryDropdownlist');
+        dropdownMenu.innerHTML = '';
+   
+        countries.forEach((country, index) => {
+          const listItem = document.createElement('li');
+          const anchorItem = document.createElement('a');
+          anchorItem.classList.add('dropdown-item');
+          anchorItem.href = '#';
+          anchorItem.innerText = country;
+          anchorItem.onclick = function(){
+            selectCountry(country);
+          };
+          listItem.appendChild(anchorItem);
+          dropdownMenu.appendChild(listItem);
+   
+          if(index === 0){
+            selectCountry(country);
+          }
+         })
+      }
+   
+      function selectCountry(country){
+        document.getElementById('dropDownMenuButton').innerText = country;
+      }
+   
+      renderDropdown();
+    </script>
+  
+    <!-- JavaScript files -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/inventory.js"></script>
+    <script src="{% static 'js/catelogue.js' %}"></script>
+
+     <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+     <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+     <script src="{% static 'js/sidebarmenu.js' %}"></script>
+     <script src="{% static 'js/app.min.js' %}"></script>
+     <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+     <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+     <script>
+      const productImagePath = "{% static 'images/products/s5.jpg' %}";
+  </script>
+     <script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+
+</html>

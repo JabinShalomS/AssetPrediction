@@ -1,0 +1,533 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asset Prediction</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+    <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+    <script src="{% static 'js/inventory.js' %}" defer></script>
+    
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/catelogue.css' %}">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <style>
+    .left-sidebar {
+      box-shadow: 8px 0 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+  <style>
+    .btn-primary.reject-btn {
+        margin: 0;
+    }
+    .btn-secondary.reject-btn {
+        margin: 0;
+    }
+    .btn-danger.reject-btn {
+        margin: 0;
+    }
+    .hidden {
+        display: none;
+    }
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    .page-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .body-wrapper {
+        flex: 1;
+    }
+    .footer {
+        margin-top: auto;
+        width: 100%;
+    }
+</style>
+
+</head>
+
+<body>
+    <!-- Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed">
+        <!-- Sidebar Start -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div>
+                <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/" class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt=""/><span class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a><div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i class="ti ti-x fs-8"></i></div></div>
+              <!-- Sidebar navigation-->
+              <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                <ul id="sidebarnav">
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/src/html/" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-layout-dashboard"></i>
+                      </span>
+                      <span class="hide-menu">Dashboard</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/srp/dashboard" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">SRP</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/srp/approve" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">Approve SRP</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/gea/dashboard" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">GEA</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/gea/approve" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">Approve GEA</span>
+                    </a>
+                  </li>
+                  <!-- <li class="sidebar-item">
+                    <a class="sidebar-link" href="/catalogue" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-analyze"></i>
+                      </span>
+                      <span class="hide-menu">Catalogue</span>
+                    </a>
+                  </li> -->
+          
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/inventory" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">Inventory</span>
+                    </a>
+                  </li>
+                 
+                  <li class="sidebar-item">
+                    <a class="sidebar-link" href="/catalogue/refresh" aria-expanded="false">
+                      <span>
+                        <i class="ti ti-address-book"></i>
+                      </span>
+                      <span class="hide-menu">Catalogue refresh</span>
+                    </a>
+                  </li>
+                
+        
+                </ul>
+                
+      
+      
+              </nav>
+              <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+          </aside>
+        <!-- Sidebar End -->
+        <!-- Main wrapper -->
+        <div class="body-wrapper">
+
+ 
+          <div id="content-wrapper" class="d-flex flex-column">
+        
+            <!-- Main Content -->
+            <div id="content">
+        
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+        
+                    <!-- Topbar Search -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                          <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                            <i class="ti ti-menu-2"></i>
+                            
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                            <i class="ti ti-bell-ringing"></i>
+                            <div class="notification bg-primary rounded-circle"></div>
+                          </a>
+                        </li>
+                        
+                        
+                        
+                        
+                      </ul>
+                      <a href=""  class="btn btn-primary me-2">Approval pending</a>
+                      <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                          <div class="dropdown mx-3">
+                            <button id='dropDownMenuButton' class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                              <!-- Select country -->
+                              <!-- First country will be displayed by default -->
+                            </button>
+                            <ul id='countryDropdown' class="dropdown-menu">
+                              <!-- <li><a class="dropdown-item" href="#">Korea</a></li>
+                              <li><a class="dropdown-item" href="#">Belgium</a></li> -->
+                            </ul>
+                          </div>
+                          
+                          <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a> -->
+                          <li class="nav-item dropdown">
+                            <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                              <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35" class="rounded-circle">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                              <div class="message-body">
+                                <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                  <i class="ti ti-user fs-6"></i>
+                                  <p class="mb-0 fs-3">My Profile</p>
+                                </a>
+                                <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+        
+                    <!-- Topbar Navbar -->
+                    
+
+                </nav>
+              </header>
+            <!-- Header End -->
+            <div class="container-fluid">
+        <!-- Selected Filters -->
+        
+
+        <!-- Add this section where you want the file inputs and process button to appear -->
+        <div class="container file-inputs">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="file1" class="darker-label">Transation Sheet</label>
+                    <input type="file" id="file1" class="file-input form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="file2" class="darker-label">Old Catalogue</label>
+                    <input type="file" id="file2" class="file-input form-control" required>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label for="file3" class="darker-label">Old Flat File </label>
+                    <input type="file" id="file3" class="file-input form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="file4" class="darker-label">New Flat File</label>
+                    <input type="file" id="file4" class="file-input form-control" required>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button id="processButton" class="btn btn-primary w-100" disabled>Process</button>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .darker-label {
+                color: #333; /* Darker color for the labels */
+                font-weight: bold; /* Make the labels bold */
+            }
+        </style>
+
+        <!-- Table with probable matches -->
+        <div class="container mt-5 hidden" id="identifiedUpdatesTable">
+            <h3>Identified Updates</h3>
+            <table class="table table-bordered table-hover">
+                <thead class="table-primary">
+                    <tr>
+                      <th>Old Part Number</th>
+                        <th>Old Part Name</th>
+                        <th>Old Part Specifications</th>
+                        <th>New Part Number</th>
+                        <th>New Part Name</th>
+                        <th>New Part Specifications</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="matchesTableBody">
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button id="approveTransitionButton" class="btn btn-primary">Approve Transition</button>
+            </div>
+        </div>
+
+        <!-- Table with update assist -->
+        <div class="container mt-5 hidden" id="updateAssistTable">
+            <h3>Update Assist</h3>
+            <table class="table table-bordered table-hover">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Part Name</th>
+                        <th>New Part Specification</th>
+                        <th>New Part Number</th>
+                    </tr>
+                </thead>
+                <tbody id="updateAssistTableBody">
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+            <div class="text-center">
+              <button id="approveTransitionButton" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+
+        <script>
+            // JavaScript to enable the process button only when all file inputs have files selected
+            const fileInputs = document.querySelectorAll('.file-input');
+            const processButton = document.getElementById('processButton');
+            const identifiedUpdatesTable = document.getElementById('identifiedUpdatesTable');
+            const updateAssistTable = document.getElementById('updateAssistTable');
+        
+            fileInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const allFilesSelected = Array.from(fileInputs).every(input => input.files.length > 0);
+                    processButton.disabled = !allFilesSelected;
+                });
+            });
+
+            processButton.addEventListener('click', () => {
+                identifiedUpdatesTable.classList.remove('hidden');
+                updateAssistTable.classList.remove('hidden');
+            });
+
+            // Example variable with product details
+            const possible_fix = [
+                {old_number:"21H2S7G124",new_number:"21L2S4EG22", old_name: "L14 G4", old_spec: "i5/8+8GB/256GB", new_name: "L14 Gen5", new_spec: "i5/8+8GB/256GB" },
+                {old_number:"21HESA7Q24",new_number:"21MMS76922", old_name: "T14 G4", old_spec: "i5/8GB soldered+8GB/256GB", new_name: "T14 Intel Gen5", new_spec: "i5/8+8GB/256GB" },
+                {old_number:"21EYS7CG24",new_number:"21LVS4NH22", old_name: "X13 G4", old_spec: "i5/16GB/256GB", new_name: "X13 Gen5", new_spec: "i5/16GB/256GB" },
+                {old_number:"21F3S46R1A",new_number:"21LXS2XH1X", old_name: "X13 Yoga G4", old_spec: "i5/16GB/512GB/LTE", new_name: "X13 2in1 Gen5", new_spec: "i5/16GB/512GB/LTE" },
+                { old_number:"21LXS2XH1X",new_number:"21KFS46G20",old_name: "X1 Yoga G8", old_spec: "i7/32GB/512GB/LTE", new_name: "X1 2in1 Gen9", new_spec: "i7/16GB/512GB/LTE" },
+                { old_number:"21HRS66G21",new_number:"21KFS46E20",old_name: "X1 Yoga G8", old_spec: "i7/32GB/1TB/LTE", new_name: "X1 2in1 Gen9", new_spec: "i7/32GB/1TB/LTE" },
+                { old_number:"21FKS3QK23",new_number:"21LNS2EV22",old_name: "L13 Yoga G4", old_spec: "i5/16GB/256GB/NoPen", new_name: "L13 2in1 G5", new_spec: "i5/16GB/256GB/NoPen" },
+                { old_number:"21FBS6GL24",new_number:"21KYS31L22",old_name: "P16 G2", old_spec: "i9/32GB/1TB/A3500", new_name: "P16v G2", new_spec: "i9/2x16GB/1TB/A3000" },
+               
+                // Add more items as needed
+            ];
+            const update_fix = [{new_name: "X1 Carbon Gen12", new_spec: "i7/16GB/512GB/LTE" },{new_name: "X1 Carbon Gen12", new_spec: "i7/16GB/512GB/LTE Touch" },{new_name: "X12 Tablet Gen2", new_spec: "i5/16GB/256/LTE" }]
+
+            // Example variable with new product names for suggestions
+            const new_product_names = [];
+
+            // Function to add rows to the table dynamically
+            function addRowsToTable(data) {
+                const tableBody = document.getElementById('matchesTableBody');
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td class="old-name">${item.old_number}</td>
+                        <td class="old-name">${item.old_name}</td>
+                        <td class="old-spec">${item.old_spec}</td>
+                        <td class="editable new-name">${item.new_number}</td>
+                        <td class="editable new-name">${item.new_name}</td>
+                        <td class="editable new-spec">${item.new_spec}</td>
+                        <td>
+                            
+                            <button class="btn btn-primary reject-btn">Edit</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // Function to add rows to the update assist table dynamically
+            function addRowsToUpdateAssistTable(data) {
+                const tableBody = document.getElementById('updateAssistTableBody');
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.new_name}</td>
+                        <td>${item.new_spec}</td>
+                        <td><input type="text" class="form-control part-number-input"></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+
+            // Add rows to the tables on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                addRowsToTable(possible_fix);
+                addRowsToUpdateAssistTable(update_fix);
+            });
+
+            // JavaScript to handle approve and reject actions
+            document.addEventListener('click', function(event) {
+                 if (event.target.classList.contains('reject-btn')) {
+                    const row = event.target.closest('tr');
+                    const editableCells = row.querySelectorAll('.editable');
+
+                    editableCells.forEach(cell => {
+                        if (!cell.hasAttribute('data-original-value')) {
+                            // Store the original value in a data attribute
+                            cell.setAttribute('data-original-value', cell.textContent.trim());
+                        }
+                        cell.contentEditable = true; // Make the cell editable
+                        cell.focus(); // Focus on the first editable cell
+                    });
+                }
+            });
+
+            // Function to show suggestions based on user input
+            function showSuggestions(inputElement) {
+                const dropdown = document.createElement('ul');
+                dropdown.classList.add('suggestions-dropdown');
+                inputElement.parentNode.appendChild(dropdown);
+
+                inputElement.addEventListener('input', function() {
+                    const query = inputElement.textContent.toLowerCase();
+                    dropdown.innerHTML = '';
+                    new_product_names.forEach(name => {
+                        if (name.toLowerCase().includes(query)) {
+                            const suggestionItem = document.createElement('li');
+                            suggestionItem.textContent = name;
+                            suggestionItem.addEventListener('click', function() {
+                                inputElement.textContent = name;
+                                dropdown.innerHTML = '';
+                            });
+                            dropdown.appendChild(suggestionItem);
+                        }
+                    });
+                });
+
+                inputElement.addEventListener('blur', function() {
+                    setTimeout(() => {
+                        dropdown.innerHTML = '';
+                    }, 100); // Delay to allow click event on suggestion item
+                });
+            }
+
+            // Function to fetch product details
+            function getProductDetails(row) {
+                const oldName = row.querySelector('.old-name').textContent;
+                const oldSpec = row.querySelector('.old-spec').textContent;
+                const newName = row.querySelector('.new-name').textContent;
+                const newSpec = row.querySelector('.new-spec').textContent;
+                return { oldName, oldSpec, newName, newSpec };
+            }
+
+            // Handle Approve Transition button click
+            document.getElementById('approveTransitionButton').addEventListener('click', function() {
+                const rows = document.querySelectorAll('#matchesTableBody tr');
+                rows.forEach(row => {
+                    const actionCell = row.querySelector('td:last-child');
+                    actionCell.innerHTML = 'Done';
+                });
+                // Hide the Approve Transition button
+                document.getElementById('approveTransitionButton').style.display = 'none';
+            });
+
+            // Handle Update button click in Update Assist
+            document.querySelector('#updateAssistTable').addEventListener('click', function(event) {
+                if (event.target.id === 'approveTransitionButton') {
+                    const rows = document.querySelectorAll('#updateAssistTableBody tr');
+                    rows.forEach(row => {
+                        const partNumberInput = row.querySelector('.part-number-input');
+                        if (partNumberInput) {
+                            // Replace the input field with its current value as plain text
+                            const value = partNumberInput.value.trim();
+                            const cell = partNumberInput.parentElement;
+                            cell.textContent = value; // Set the value as plain text
+                        }
+                    });
+                }
+            });
+        </script>
+
+        <style>
+            .suggestions-dropdown {
+                position: absolute;
+                background-color: white;
+                border: 1px solid #ccc;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                max-height: 150px;
+                overflow-y: auto;
+                z-index: 1000;
+            }
+
+            .suggestions-dropdown li {
+                padding: 8px;
+                cursor: pointer;
+            }
+
+            .suggestions-dropdown li:hover {
+                background-color: #f0f0f0;
+            }
+        </style>
+        
+       
+        <!-- Filter options as tabs -->
+       
+        
+        <div style="height: 300px; width: 100%; ">
+          
+      </div>
+      
+
+        
+        <!-- Footer -->
+        <footer class="footer mt-auto py-3 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col text-center">
+                        <span class="text-muted">
+                            Copyright ©
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script> Wipro Technologies Limited
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- JavaScript files -->
+    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/inventory.js"></script>
+    <script src="{% static 'js/catelogue.js' %}"></script>
+
+     <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+     <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+     <script src="{% static 'js/sidebarmenu.js' %}"></script>
+     <script src="{% static 'js/app.min.js' %}"></script>
+     <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+     <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+     <script>
+      const productImagePath = "{% static 'images/products/s5.jpg' %}";
+  </script>
+     <script src="{% static 'js/dashboard.js' %}"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Asset Prediction</title>
+<link rel="shortcut icon" type="image/png" href="../assets/images/logos/wipro_logo.png" />
+<link rel="stylesheet" href="../assets/css/styles.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+    .progress {
+        height: 20px;
+    }
+    .progress-bar {
+        line-height: 20px;
+        color: white;
+    }
+    .footer {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+
+<aside class="left-sidebar">
+
+<div>
+<div>
+<div class="brand-logo d-flex align-items-center justify-content-between">
+<a href="./index.html" class="text-nowrap logo-img">
+<img src="../assets/images/logos/wipro_logo.png" width="50" alt=""/>
+<span class="ml-2 asset-prediction">Asset Prediction</span>
+</a>
+<div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+<i class="ti ti-x fs-8"></i>
+</div>
+</div>
+
+<nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+<ul id="sidebarnav">
+<li class="sidebar-item">
+<a class="sidebar-link" href="./index.html" aria-expanded="false">
+<span><i class="ti ti-layout-dashboard"></i></span>
+<span class="hide-menu">Dashboard</span>
+</a>
+</li>
+<li class="sidebar-item">
+<a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+<span><i class="ti ti-analyze"></i></span>
+<span class="hide-menu">SRP in review</span>
+</a>
+</li>
+<li class="sidebar-item">
+<a class="sidebar-link" href="./excel.html" aria-expanded="false" style="pointer-events: none;">
+<span><i class="ti ti-cloud-upload"></i></span>
+<span class="hide-menu">Upload Excel</span>
+</a>
+</li>
+<li class="sidebar-item">
+<a class="sidebar-link" href="./inventory.html" aria-expanded="false">
+<span><i class="ti ti-address-book"></i></span>
+<span class="hide-menu">Inventory</span>
+</a>
+</li>
+
+</ul>
+</nav>
+
+</div>
+</div>
+</aside>
+
+<div class="body-wrapper">
+
+<header class="app-header">
+<nav class="navbar navbar-expand-lg navbar-light">
+<ul class="navbar-nav">
+<li class="nav-item d-block d-xl-none">
+<a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+<i class="ti ti-menu-2"></i>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12 ">
+<div class="card w-100">
+<div class="card-body p-4">
+<h3 class="card-title fw-bold mb-4">Upload file (Inventory)</h3>
+<div class="input-group">
+<div class="custom-file">
+<input type="file" class="custom-file-input" id="inputGroupFileInventory">
+<label class="custom-file-label" for="inputGroupFileInventory">Choose file</label>
+</div>
+<div class="input-group-append">
+<button class="btn btn-primary" type="button" onclick="uploadFile('inventory')">Upload</button>
+</div>
+</div>
+<div class="progress mt-2" id="progressInventory" style="display: none;">
+<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12 ">
+<div class="card w-100">
+<div class="card-body p-4">
+<h3 class="card-title fw-bold mb-4">Upload file (Open Tasks)</h3>
+<div class="input-group">
+<div class="custom-file">
+<input type="file" class="custom-file-input" id="inputGroupFileOpenTasks">
+<label class="custom-file-label" for="inputGroupFileOpenTasks">Choose file</label>
+</div>
+<div class="input-group-append">
+<button class="btn btn-primary" type="button" onclick="uploadFile('openTasks')">Upload</button>
+</div>
+</div>
+<div class="progress mt-2" id="progressOpenTasks" style="display: none;">
+<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-lg-12 ">
+<div class="card w-100">
+<div class="card-body p-4">
+<h3 class="card-title fw-bold mb-4">Upload file (Demand History)</h3>
+<div class="input-group">
+<div class="custom-file">
+<input type="file" class="custom-file-input" id="inputGroupFileNewUpload">
+<label class="custom-file-label" for="inputGroupFileNewUpload">Choose file</label>
+</div>
+<div class="input-group-append">
+<button class="btn btn-primary" type="button" onclick="uploadFile('newUpload')">Upload</button>
+</div>
+</div>
+<div class="progress mt-2" id="progressNewUpload" style="display: none;">
+<div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+ 
+<!-- Footer -->
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+      <div class="row">
+          <div class="col text-center">
+              <span class="text-muted">
+                  Copyright ©
+                  <script>
+                      document.write(new Date().getFullYear())
+                  </script> Wipro Technologies Limited
+              </span>
+          </div>
+      </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/sidebarmenu.js"></script>
+<script src="../assets/js/app.min.js"></script>
+<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+<script src="server.js"></script>
+
+</div>
+</div>
+</body>
+</html>
+
+
+<!-- <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Asset Prediction</title>
+    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/wipro_logo.png" />
+    <link rel="stylesheet" href="../assets/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .progress {
+            height: 20px;
+        }
+        .progress-bar {
+            line-height: 20px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+   
+        <aside class="left-sidebar">
+        
+            <div>
+                <div>
+                    <div class="brand-logo d-flex align-items-center justify-content-between">
+                        <a href="./index.html" class="text-nowrap logo-img">
+                            <img src="../assets/images/logos/wipro_logo.png" width="50" alt=""/>
+                            <span class="ml-2 asset-prediction">Asset Prediction</span>
+                        </a>
+                        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                            <i class="ti ti-x fs-8"></i>
+                        </div>
+                    </div>
+                   
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <ul id="sidebarnav">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                                    <span><i class="ti ti-layout-dashboard"></i></span>
+                                    <span class="hide-menu">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                                    <span><i class="ti ti-aperture"></i></span>
+                                    <span class="hide-menu">SRP in review</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./excel.html" aria-expanded="false">
+                                    <span><i class="ti ti-aperture"></i></span>
+                                    <span class="hide-menu">Upload Excel</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="./inventory.html" aria-expanded="false">
+                                    <span><i class="ti ti-aperture"></i></span>
+                                    <span class="hide-menu">Inventory</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                  
+                </div>
+            </div>
+        </aside>
+     
+        <div class="body-wrapper">
+            <header class="app-header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <ul class="navbar-nav">
+                        <li class="nav-item d-block d-xl-none">
+                            <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                                <i class="ti ti-menu-2"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+          
+            <div class="container-fluid">
+                <div class="row">
+           
+                    <div class="col-lg-12">
+                        <div class="card w-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title fw-bold mb-4">Upload file (Inventory)</h3>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFileInventory" onchange="displayFileName('inputGroupFileInventory', 'fileNameInventory')">
+                                        <label class="custom-file-label" for="inputGroupFileInventory">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" onclick="uploadFile('inventory')">Upload</button>
+                                    </div>
+                                </div>
+                                <p id="fileNameInventory" class="mt-2"></p>
+                                <div class="progress mt-2" id="progressInventory" style="display: none;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                  
+                    <div class="col-lg-12">
+                        <div class="card w-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title fw-bold mb-4">Upload file (Open Tasks)</h3>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFileOpenTasks" onchange="displayFileName('inputGroupFileOpenTasks', 'fileNameOpenTasks')">
+                                        <label class="custom-file-label" for="inputGroupFileOpenTasks">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" onclick="uploadFile('openTasks')">Upload</button>
+                                    </div>
+                                </div>
+                                <p id="fileNameOpenTasks" class="mt-2"></p>
+                                <div class="progress mt-2" id="progressOpenTasks" style="display: none;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                
+                    <div class="col-lg-12">
+                        <div class="card w-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title fw-bold mb-4">Upload file (Demand History)</h3>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFileNewUpload" onchange="displayFileName('inputGroupFileNewUpload', 'fileNameNewUpload')">
+                                        <label class="custom-file-label" for="inputGroupFileNewUpload">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" onclick="uploadFile('newUpload')">Upload</button>
+                                    </div>
+                                </div>
+                                <p id="fileNameNewUpload" class="mt-2"></p>
+                                <div class="progress mt-2" id="progressNewUpload" style="display: none;">
+                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+            <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../assets/js/sidebarmenu.js"></script>
+            <script src="../assets/js/app.min.js"></script>
+            <script src="../assets/libs/simplebar/dist/simplebar.js"></script>
+            <script src="../assets/js/script.js"></script>
+        </div>
+    </div>
+</body>
+<footer class="footer mt-auto py-3 bg-light"></footer>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <span class="text-muted">
+                    Copyright ©
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> Wipro Technologies Limited
+                </span>
+            </div>
+        </div>
+    </div>
+  </footer>
+
+</html> -->
+

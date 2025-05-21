@@ -1,0 +1,1014 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Prediction</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css' %}"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="{% static 'css/app.css' %}" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="{% static 'fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+  <style>
+    /* ...existing code... */
+    .left-sidebar {
+      box-shadow: 8px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ...existing code... */
+  </style>
+  <style>
+    /* ...existing code... */
+    .row1-box-shadow {
+      box-shadow: -8px -8px 8px rgba(0, 0, 0, 0.2), 8px 8px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ...existing code... */
+  </style>
+  <style>
+    #chartdiv {
+      width: 100%;
+      height: 300px;
+    }
+
+    #chartdiv2 {
+      width: 100%;
+      height: 500px;
+    }
+
+    .row {
+      display: flex;
+      /* equal height of the children */
+    }
+
+    .col {
+      flex: 1;
+      /* additionally, equal width */
+
+
+    }
+  </style>
+
+  <!-- Resources -->
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+  <!-- Chart code -->
+  <script>
+    am5.ready(function () {
+
+
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      var root = am5.Root.new("chartdiv");
+      root._logo.dispose();
+
+
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      var chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        paddingLeft: 0,
+        wheelX: "panX",
+        wheelY: "zoomX",
+        layout: root.verticalLayout
+      }));
+
+
+      // Add legend
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+      var legend = chart.children.push(
+        am5.Legend.new(root, {
+          centerX: am5.p50,
+          x: am5.p50
+        })
+      );
+
+      var data = [{
+        "year": "Sep",
+        "europe": 1,
+        "namerica": 3,
+        "asia": 7,
+        "lamerica": 13,
+        "meast": 2,
+        "africa": 1
+      }, {
+        "year": "oct",
+        "europe": 0,
+        "namerica": 9,
+        "asia": 12,
+        "lamerica": 3,
+        "meast": 2,
+        "africa": 6
+      }, {
+        "year": "Nov",
+        "europe": 11,
+        "namerica": 10,
+        "asia": 10,
+        "lamerica": 9,
+        "meast": 3,
+        "africa": 2
+      }]
+
+
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      var xRenderer = am5xy.AxisRendererX.new(root, {
+        cellStartLocation: 0.1,
+        cellEndLocation: 0.9,
+        minorGridEnabled: true
+      })
+
+      var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+        categoryField: "year",
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+
+      xRenderer.grid.template.setAll({
+        location: 1
+      })
+
+      xAxis.data.setAll(data);
+
+      var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: am5xy.AxisRendererY.new(root, {
+          strokeOpacity: 0.1
+        })
+      }));
+
+
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      function makeSeries(name, fieldName) {
+        var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+          name: name,
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: fieldName,
+          categoryXField: "year"
+        }));
+
+        series.columns.template.setAll({
+          tooltipText: "{name}, {categoryX}:{valueY}",
+          width: am5.percent(100),
+          tooltipY: 0,
+          strokeOpacity: 0
+        });
+
+        series.data.setAll(data);
+
+        // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+        series.appear();
+
+        series.bullets.push(function () {
+          return am5.Bullet.new(root, {
+            locationY: 0,
+            sprite: am5.Label.new(root, {
+              text: "{valueY}",
+              fill: root.interfaceColors.get("alternativeText"),
+              centerY: 0,
+              centerX: am5.p50,
+              populateText: true
+            })
+          });
+        });
+
+        legend.data.push(series);
+      }
+
+      makeSeries("21H2S7G11W", "europe");
+      makeSeries("4X30L79883", "namerica");
+      makeSeries("4X41A30364", "asia");
+      makeSeries("4Y51C21217", "lamerica");
+      makeSeries("21EYS7CG1W", "africa");
+      makeSeries("63CFMARXKKR", "meast");
+
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      chart.appear(1000, 100);
+
+    }); // end am5.ready()
+  </script>
+  <script>
+    am5.ready(function () {
+
+      var data = [{
+        "date": "2024-11-18",
+        "distance": 22,
+        "townName": "New York",
+        "townSize": 12,
+        "latitude": 40,
+        "duration": 40
+      }, {
+        "date": "2024-11-19",
+        "distance": 37,
+        "townName": "Washington",
+        "townSize": 7,
+        "latitude": 38,
+        "duration": 48
+      }, {
+        "date": "2024-11-20",
+        "distance": 43,
+        "townName": "Wilmington",
+        "townSize": 3,
+        "latitude": 34,
+        "duration": 56
+      }, {
+        "date": "2024-11-21",
+        "distance": 34,
+        "townName": "Jacksonville",
+        "townSize": 3.5,
+        "latitude": 30,
+        "duration": 37
+      }, {
+        "date": "2024-11-22",
+        "distance": 48,
+        "townName": "Miami",
+        "townSize": 5,
+        "latitude": 25,
+        "duration": 50
+      }, {
+        "date": "2024-11-23",
+        "distance": 38,
+        "townName": "Tallahassee",
+        "townSize": 3.5,
+        "latitude": 30,
+        "duration": 44
+      }, {
+        "date": "2024-11-24",
+        "distance": 34,
+        "townName": "New Orleans",
+        "townSize": 5,
+        "latitude": 29,
+        "duration": 40
+      }, {
+        "date": "2024-11-25",
+        "distance": 23,
+        "townName": "Houston",
+        "townSize": 8,
+        "latitude": 29,
+        "duration": 30
+      }, {
+        "date": "2024-11-26",
+        "distance": 21,
+        "townName": "Dalas",
+        "townSize": 8,
+        "latitude": 32,
+        "duration": 28
+      }, {
+        "date": "2024-11-27",
+        "distance": 34,
+        "townName": "Oklahoma City",
+        "townSize": 5,
+        "latitude": 35,
+        "duration": 48
+      }, {
+        "date": "2024-11-28",
+        "distance": 60,
+        "townName": "Kansas City",
+        "townSize": 5,
+        "latitude": 39,
+        "duration": 89
+      }, {
+        "date": "2024-11-29",
+        "distance": 53,
+        "townName": "Denver",
+        "townSize": 9,
+        "latitude": 39,
+        "duration": 81
+      }, {
+        "date": "2024-11-30",
+        "townName": "Salt Lake City",
+        "townSize": 6,
+        "distance": 42,
+        "duration": 67,
+        "latitude": 40,
+        "dashLength": 8,
+        "alpha": 0.4
+      },];
+
+      // Create root element
+      // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+      var root = am5.Root.new("chartdiv2");
+      root._logo.dispose();
+      //latitude stock,distance pending orders,town name new requests, 
+      // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+      root.setThemes([
+        am5themes_Animated.new(root)
+      ]);
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+      var chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: false,
+        panY: false,
+        wheelY: "none"
+      }));
+
+      chart.zoomOutButton.set("forceHidden", true);
+
+      chart.get("colors").set("step", 2);
+
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+      var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+        baseInterval: { timeUnit: "day", count: 1 },
+        renderer: am5xy.AxisRendererX.new(root, {
+          minGridDistance: 70,
+          minorGridEnabled: true
+        }),
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+
+
+      var distanceAxisRenderer = am5xy.AxisRendererY.new(root, {});
+      distanceAxisRenderer.grid.template.set("forceHidden", true);
+      var distanceAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: distanceAxisRenderer,
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+
+      var latitudeAxisRenderer = am5xy.AxisRendererY.new(root, {});
+      latitudeAxisRenderer.grid.template.set("forceHidden", true);
+      var latitudeAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        renderer: latitudeAxisRenderer,
+        forceHidden: true
+      }));
+
+      var durationAxisRenderer = am5xy.AxisRendererY.new(root, {
+        opposite: true
+      });
+      durationAxisRenderer.grid.template.set("forceHidden", true);
+      var durationAxis = chart.yAxes.push(am5xy.DurationAxis.new(root, {
+        baseUnit: "minute",
+        renderer: durationAxisRenderer,
+        extraMax: 0.3
+      }));
+
+      // Create series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+      var distanceSeries = chart.series.push(am5xy.ColumnSeries.new(root, {
+        xAxis: xAxis,
+        yAxis: distanceAxis,
+        valueYField: "distance",
+        valueXField: "date",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: " pending orders {valueY} "
+        })
+      }));
+
+      distanceSeries.data.processor = am5.DataProcessor.new(root, {
+        dateFields: ["date"],
+        dateFormat: "yyyy-MM-dd"
+      });
+
+      var latitudeSeries = chart.series.push(am5xy.LineSeries.new(root, {
+        xAxis: xAxis,
+        yAxis: latitudeAxis,
+        valueYField: "latitude",
+        valueXField: "date",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "stock: {valueY} "
+        })
+      }));
+
+      latitudeSeries.strokes.template.setAll({ strokeWidth: 2 });
+
+      // Add circle bullet
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
+      latitudeSeries.bullets.push(function () {
+        var graphics = am5.Circle.new(root, {
+          strokeWidth: 2,
+          radius: 5,
+          stroke: latitudeSeries.get("stroke"),
+          fill: root.interfaceColors.get("background"),
+        });
+
+        graphics.adapters.add("radius", function (radius, target) {
+          return target.dataItem.dataContext.townSize;
+        })
+
+        return am5.Bullet.new(root, {
+          sprite: graphics
+        });
+      });
+
+      var durationSeries = chart.series.push(am5xy.LineSeries.new(root, {
+        xAxis: xAxis,
+        yAxis: durationAxis,
+        valueYField: "duration",
+        valueXField: "date",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "new orders: {valueY}"
+        })
+      }));
+
+      durationSeries.strokes.template.setAll({ strokeWidth: 2 });
+
+      // Add circle bullet
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/#Bullets
+      durationSeries.bullets.push(function () {
+        var graphics = am5.Rectangle.new(root, {
+          width: 10,
+          height: 10,
+          centerX: am5.p50,
+          centerY: am5.p50,
+          fill: durationSeries.get("stroke")
+        });
+
+        return am5.Bullet.new(root, {
+          sprite: graphics
+        });
+      });
+
+      // Add cursor
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+      chart.set("cursor", am5xy.XYCursor.new(root, {
+        xAxis: xAxis,
+        yAxis: distanceAxis
+      }));
+
+
+      distanceSeries.data.setAll(data);
+      latitudeSeries.data.setAll(data);
+      durationSeries.data.setAll(data);
+      xAxis.data.setAll(data);
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+      distanceSeries.appear(1000);
+      chart.appear(1000, 100);
+
+    }); // end am5.ready()
+  </script>
+  <style>
+    .progress {
+      height: 20px;
+    }
+
+    .progress-bar {
+      line-height: 20px;
+      color: white;
+    }
+
+    .footer {
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .card {
+      background-color: #ffffff36;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+              class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
+              class="ti ti-x fs-8"></i></div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <!-- <li class="nav-small-cap">
+            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+            <span class="hide-menu">Home</span>
+          </li> -->
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/src/html/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">SRP in review</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/approved/srp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approved SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">GEA</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approve GEA</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+            <a class="sidebar-link" href="/catalogue" aria-expanded="false">
+              <span>
+                <i class="ti ti-analyze"></i>
+              </span>
+              <span class="hide-menu">Catalogue</span>
+            </a>
+          </li>
+   -->
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/inventory" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Inventory</span>
+              </a>
+            </li>
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/catalogue/refresh" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Catalogue refresh</span>
+              </a>
+            </li>
+
+
+          </ul>
+
+
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+
+    <div class="body-wrapper">
+
+
+      <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+          <!-- Topbar -->
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Search -->
+            <ul class="navbar-nav">
+              <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                  <i class="ti ti-menu-2"></i>
+
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                  <i class="ti ti-bell-ringing"></i>
+                  <div class="notification bg-primary rounded-circle"></div>
+                </a>
+              </li>
+
+
+
+
+            </ul>
+            <!-- <a href="" class="btn btn-primary me-2">Approval pending</a> -->
+            <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <div class="dropdown mx-3">
+                  <button id='dropDownMenuButton' class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <!-- Select country -->
+                    <!-- First country will be displayed by default -->
+                  </button>
+                  <ul id='countryDropdown' class="dropdown-menu">
+                    <!-- <li><a class="dropdown-item" href="#">Korea</a></li>
+                          <li><a class="dropdown-item" href="#">Belgium</a></li> -->
+                  </ul>
+                </div>
+
+                <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a>                      <li class="nav-item dropdown"> -->
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35"
+                    class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                              <i class="ti ti-mail fs-6"></i>
+                              <p class="mb-0 fs-3">My Account</p>
+                            </a> -->
+                    <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                              <i class="ti ti-list-check fs-6"></i>
+                              <p class="mb-0 fs-3">My Task</p>
+                            </a> -->
+                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+                </li>
+              </ul>
+
+              <!-- Topbar Navbar -->
+
+
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+
+            <!-- Page Heading -->
+
+
+            <!-- Content Row -->
+            <div class="row">
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                          Total Orders</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">812</div>
+                        <div class="mb-0">
+                          <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.6% </span>
+                          <span class="text-muted">Since last month</span>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                          Distinct Components</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">73</div>
+                        <div class="mb-0">
+                          <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> +6.6% </span>
+                          <span class="text-muted">Since last Month</span>
+                        </div>
+
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Task Completion
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                          <div class="col-auto">
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">90%</div>
+                          </div>
+                          <div class="col">
+                            <div class="progress progress-sm mr-2">
+                              <div class="progress-bar bg-info" role="progressbar" style="width: 90%" aria-valuenow="90"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                      </div>
+
+                    </div>
+                    <div class="mb-0">
+                      <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> +5.2% </span>
+                      <span class="text-muted">Since last Month</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pending Requests Card Example -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                          Pending Requests</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                      </div>
+
+                    </div>
+                    <div class="mb-0">
+                      <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -4.8% </span>
+                      <span class="text-muted">Since last month</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Row -->
+
+            <div class="row">
+
+              <!-- Area Chart -->
+              <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Expenditure Overview</h6>
+                    <div class="dropdown no-arrow">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area">
+                      <canvas id="myAreaChart"></canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pie Chart -->
+              <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Expenditure Sources</h6>
+                    <div class="dropdown no-arrow">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                      <canvas id="myPieChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                      <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> SRP
+                      </span>
+                      <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> GEA
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Row -->
+            <div class="row">
+
+              <!-- Content Column -->
+              <div class="col-lg-6 mb-4">
+
+                <!-- Project Card Example -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Task Completion</h6>
+                  </div>
+                  <div class="card-body">
+                    <h4 class="small font-weight-bold">Laptop <span class="float-right">50%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="50"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="small font-weight-bold">Monitors <span class="float-right">60%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="60"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="small font-weight-bold">Chargers & Batteries <span class="float-right">70%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="70"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="small font-weight-bold">Keyboards & Mice <span class="float-right">80%</span></h4>
+                    <div class="progress mb-4">
+                      <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h4 class="small font-weight-bold">Docking <span class="float-right">Complete!</span></h4>
+                    <div class="progress">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <div class="col-lg-6 mb-4">
+
+                <!-- Illustrations -->
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Innovation</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="text-center">
+                      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
+                        src="{% static 'img/undraw_posting_photo.svg' %}" alt="...">
+                    </div>
+                    <p>We leverage advanced statistical modeling and predictive analytics to forecast the optimal number
+                      of assets you need. Our data-driven approach ensures you purchase efficiently and maintain the
+                      right stock levels to meet demand.</p>
+
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+
+          </div>
+          <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+
+
+      </div>
+
+
+
+
+
+      <!-- Footer -->
+      <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <span class="text-muted">
+                Copyright ©
+                <script>
+                  document.write(new Date().getFullYear())
+                </script> Wipro Technologies Limited
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- Scripts -->
+      <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/sidebarmenu.js' %}"></script>
+      <script src="{% static 'js/app.min.js' %}"></script>
+      <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+      <!-- <script src="server.js"></script> -->
+      <script>
+        const countries = ['Poland'];
+
+        function renderDropdown() {
+          const dropdownMenu = document.getElementById('countryDropdown');
+          dropdownMenu.innerHTML = '';
+
+          countries.forEach((country, index) => {
+            const listItem = document.createElement('li');
+            const anchorItem = document.createElement('a');
+            anchorItem.classList.add('dropdown-item');
+            anchorItem.href = '#';
+            anchorItem.innerText = country;
+            anchorItem.onclick = function () {
+              selectCountry(country);
+            };
+            listItem.appendChild(anchorItem);
+            dropdownMenu.appendChild(listItem);
+
+            if (index === 0) {
+              selectCountry(country);
+            }
+          })
+        }
+
+        function selectCountry(country) {
+          document.getElementById('dropDownMenuButton').innerText = country;
+        }
+
+        renderDropdown();
+      </script>
+      <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+      <!-- Page level plugins -->
+      <script src="{% static 'chart.js/Chart.min.js' %}"></script>
+
+      <!-- Page level custom scripts -->
+      <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
+      <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+    </div>
+  </div>
+</body>
+
+</html>

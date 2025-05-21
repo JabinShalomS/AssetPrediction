@@ -1,0 +1,297 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Prediction</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <style>
+    .left-sidebar {
+      box-shadow: 8px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .inputWidth {
+      width: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <aside class="left-sidebar">
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+              class="ml-2 asset-prediction">Asset Prediction</span></a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
+              class="ti ti-x fs-8"></i></div>
+        </div>
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/src/html/" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/srp/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">SRP in review</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/approved/srp" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approved SRP</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/dashboard" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">GEA</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/gea/approve" aria-expanded="false">
+                <span>
+                  <i class="ti ti-analyze"></i>
+                </span>
+                <span class="hide-menu">Approve GEA</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/inventory" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Inventory</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/catalogue/refresh" aria-expanded="false">
+                <span>
+                  <i class="ti ti-address-book"></i>
+                </span>
+                <span class="hide-menu">Catalogue refresh</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </aside>
+    <div class="body-wrapper">
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+              <i class="fa fa-bars"></i>
+            </button>
+            <ul class="navbar-nav">
+              <li class="nav-item d-block d-xl-none">
+                <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                  <i class="ti ti-menu-2"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)">
+                  <i class="ti ti-bell-ringing"></i>
+                  <div class="notification bg-primary rounded-circle"></div>
+                </a>
+              </li>
+            </ul>
+            <!-- <a href="" class="btn btn-primary me-2">Approval pending</a> -->
+            <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+              <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                <div class="dropdown mx-3">
+                  <button id='dropDownMenuButton' class="btn btn-secondary dropdown-toggle" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                  </button>
+                  <ul id='countryDropdown' class="dropdown-menu">
+                  </ul>
+                </div>
+                <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a>                <li class="nav-item dropdown"> -->
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35"
+                    class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+                </li>
+              </ul>
+          </nav>
+          <div class="container-fluid">
+            <div class="row">
+              <h3 class="card-title fw-bold mb-4">Approved SRP</h3>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 d-flex align-items-stretch">
+                <div class="card w-100">
+                  <div class="card-body p-4">
+                    <h5 class="card-title fw-semibold mb-4">Approved SRP</h5>
+                    <div class="table-responsive">
+                      <table class="table text-nowrap mb-0 align-middle">
+                        <thead class="text-dark fs-4" id="table-header">
+                          <tr>
+                            <th>SRP Title</th>
+                            <th>Download File</th>
+                            <th>Timestamp</th>
+                            <th>ABB SPOC</th>
+                            <th>Final State</th>
+                          </tr>
+                        </thead>
+                        <tbody id="table-body">
+                          <!-- Table rows will be dynamically populated here -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <span class="text-muted">
+                Copyright ©
+                <script>
+                  document.write(new Date().getFullYear())
+                </script> Wipro Technologies Limited
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/sidebarmenu.js' %}"></script>
+      <script src="{% static 'js/app.min.js' %}"></script>
+      <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+      <script src="{% static 'js/approved_srp.js' %}"></script>
+      <script>
+        const countries = ['Poland'];
+
+        function renderDropdown() {
+          const dropdownMenu = document.getElementById('countryDropdown');
+          dropdownMenu.innerHTML = '';
+
+          countries.forEach((country, index) => {
+            const listItem = document.createElement('li');
+            const anchorItem = document.createElement('a');
+            anchorItem.classList.add('dropdown-item');
+            anchorItem.href = '#';
+            anchorItem.innerText = country;
+            anchorItem.onclick = function () {
+              selectCountry(country);
+            };
+            listItem.appendChild(anchorItem);
+            dropdownMenu.appendChild(listItem);
+
+            if (index === 0) {
+              selectCountry(country);
+            }
+          })
+        }
+
+        function selectCountry(country) {
+          document.getElementById('dropDownMenuButton').innerText = country;
+        }
+
+        renderDropdown();
+      </script>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const tableBody = document.getElementById('table-body');
+          tableBody.innerHTML = ''; // Clear existing table data
+
+          // Retrieve SRP status from local storage
+          const srpStatus = JSON.parse(localStorage.getItem('srpStatus')) || { state: 'Pending', timestamp: 'Pending' };
+
+          // Extract date in ddmmyyyy format
+          const date = new Date(srpStatus.timestamp);
+          const formattedDate = `${String(date.getDate()).padStart(2, '0')}${String(date.getMonth() + 1).padStart(2, '0')}${date.getFullYear()}`;
+
+          // Populate the table with the SRP status
+          const row = document.createElement('tr');
+          row.innerHTML = `
+      <td>PL – AISRP – ${formattedDate}</td>
+      <td><a href="#" id="download-link" class="btn btn-primary">Download</a></td>
+      <td>${srpStatus.timestamp}</td>
+      <td>Abhishek Anand</td>
+      <td>${srpStatus.state}</td>
+    `;
+          tableBody.appendChild(row);
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const downloadLink = document.getElementById('download-link');
+
+          downloadLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            fetch('http://127.0.0.1:5000/convert', {
+              method: 'GET'
+            })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.blob(); // Get the response as a blob
+              })
+              .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `PL-AISRP-${new Date().toLocaleDateString('en-GB').replace(/\//g, '')}-DAAS.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+              })
+              .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+              });
+          });
+        });
+      </script>
+
+</body>
+
+</html>
