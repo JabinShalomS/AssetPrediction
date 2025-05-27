@@ -1,35 +1,59 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+// function loadPieChartData(country) {
+//   if (!myPieChart) {
+//     console.error("Pie chart is not initialized.");
+//     return;
+//   }
 
-// Pie Chart Example
-var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
-  type: 'doughnut',
-  data: {
-    labels: ["SRP", "GEA"],
-    datasets: [{
-      data: [55000, 40000],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-      hoverBorderColor: "rgba(234, 236, 244, 1)",
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      caretPadding: 10,
-    },
-    legend: {
-      display: false
-    },
-    cutoutPercentage: 80,
-  },
-});
+//   // Get data for the selected country
+//   const data = dataByCountryForPieChart[country] || dataByCountryForPieChart['Poland'];
+
+//   // Update the chart's dataset
+//   myPieChart.data.datasets[0].data = data;
+//   myPieChart.update();
+// }
+
+// const countries = ['Poland', 'USA'];
+
+// // Example data structure for each country
+// const dataByCountryForPieChart = {
+//   Poland: [55000, 40000], // Data for SRP and GEA
+//   USA: [30000, 50000], // Different data for another country
+//   // Add more countries and their data as needed
+// };
+
+// // Declare myPieChart in a scope accessible to updatePieChart
+// let myPieChart;
+
+// // Initialize the Chart.js pie chart
+// function initializePieChart() {
+//   var ctx = document.getElementById("myPieChart").getContext("2d");
+//   myPieChart = new Chart(ctx, {
+//     type: 'doughnut',
+//     data: {
+//       labels: ["SRP", "GEA"],
+//       datasets: [{
+//         data: dataByCountryForPieChart.Poland, // Default data
+//         backgroundColor: ['#4e73df', '#1cc88a'],
+//         hoverBackgroundColor: ['#2e59d9', '#17a673'],
+//         hoverBorderColor: "rgba(234, 236, 244, 1)",
+//       }],
+//     },
+//     options: {
+//       maintainAspectRatio: false,
+//       tooltips: {
+//         backgroundColor: "rgb(255,255,255)",
+//         bodyFontColor: "#858796",
+//         borderColor: '#dddfeb',
+//         borderWidth: 1,
+//         xPadding: 15,
+//         yPadding: 15,
+//         displayColors: false,
+//         caretPadding: 10,
+//       },
+//       legend: {
+//         display: false
+//       },
+//       cutoutPercentage: 80,
+//     },
+//   });
+// }

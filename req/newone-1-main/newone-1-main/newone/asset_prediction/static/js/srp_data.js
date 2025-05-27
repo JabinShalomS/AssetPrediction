@@ -31,7 +31,16 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   async function populateTable() {
-    const jsonData = await getJsonData('http://127.0.0.1:5000/dashboardpq');
+    // Retrieve the selected country from local storage or default to 'Poland'
+    const selectedCountry = localStorage.getItem('selectedCountry') || 'Poland';
+    console.log(`Selected Country: ${selectedCountry}`);
+
+    // Construct the URL with the country query parameter
+    const urlPath = `http://127.0.0.1:5000/dashboardpq?country=${selectedCountry}`;
+
+    // Fetch data from the API with the country parameter
+    const jsonData = await getJsonData(urlPath);
+
     const tableBody = document.getElementById('table-body');
     const tableHeader = document.getElementById('table-header');
     tableBody.innerHTML = ''; // Clear existing table data
@@ -135,8 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
       updatedData.push(item);
     });
 
+    // Retrieve the selected country from local storage
+    const selectedCountry = localStorage.getItem('selectedCountry') || 'Poland';
+
+    // Construct the URL with the country query parameter
+    const urlPath = `http://127.0.0.1:5000/update_excel?country=${selectedCountry}`;
+
     // Send the updated data to the server
-    fetch('http://127.0.0.1:5000/update_excel', {
+    fetch(urlPath, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -188,8 +203,21 @@ document.addEventListener('DOMContentLoaded', function () {
   submitButton.addEventListener('click', function () {
     submitData();
   });
+
+  // Add event listener for dropdown changes
+  const dropdownMenu = document.getElementById('countryDropdown');
+  dropdownMenu.addEventListener('click', function (event) {
+    if (event.target.tagName === 'A') {
+      const selectedCountry = event.target.innerText;
+      localStorage.setItem('selectedCountry', selectedCountry);
+      document.getElementById('dropDownMenuButton').innerText = selectedCountry;
+      populateTable(); // Call populateTable when a new country is selected
+    }
+  });
+
   populateTable(); // Initial population of the table
 });
+
 
 function calculateFinalTotal(item) {
   // Ensure all values are numbers before summing

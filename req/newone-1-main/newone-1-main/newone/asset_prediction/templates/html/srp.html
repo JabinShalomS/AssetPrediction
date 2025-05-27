@@ -9,6 +9,19 @@
   <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/wipro_logo.png' %}" />
   <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
   <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+ 
+  <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+
+  <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/sidebarmenu.js' %}"></script>
+  <script src="{% static 'js/app.min.js' %}"></script>
+ 
+  <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+  <!-- <script src="{% static 'js/dashboard.js' %}"></script> -->
+  <script src="{% static 'js/srp.js' %}"></script>
+  <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+ 
+ 
   <style>
     /* ...existing code... */
     .left-sidebar {
@@ -56,7 +69,7 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
-            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="70" alt="" /><span
               class="ml-2 asset-prediction">Asset Prediction</span> <!-- Add the text next to the image --></a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
               class="ti ti-x fs-8"></i></div>
@@ -92,7 +105,7 @@
                 <span class="hide-menu">SRP in review</span>
               </a>
             </li>
-    <li class="sidebar-item">
+            <li class="sidebar-item">
               <a class="sidebar-link" href="/approved/srp" aria-expanded="false">
                 <span>
                   <i class="ti ti-analyze"></i>
@@ -205,29 +218,29 @@
                   </ul>
                 </div>
 
-  <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a>                <li class="nav-item dropdown"> -->
-                  <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35"
-                      class="rounded-circle">
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                    <div class="message-body">
-                      <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                        <i class="ti ti-user fs-6"></i>
-                        <p class="mb-0 fs-3">My Profile</p>
-                      </a>
-                      <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                <!-- <a href="./final_check.xlsx" download target="_blank" class="btn btn-primary">Download excel</a>                <li class="nav-item dropdown"> -->
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{% static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35"
+                    class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                           <i class="ti ti-mail fs-6"></i>
                           <p class="mb-0 fs-3">My Account</p>
                         </a> -->
-                      <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                    <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                           <i class="ti ti-list-check fs-6"></i>
                           <p class="mb-0 fs-3">My Task</p>
                         </a> -->
-                      <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
-                    </div>
+                    <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                   </div>
+                </div>
                 </li>
               </ul>
 
@@ -262,19 +275,18 @@
               <div class="col-lg-4">
                 <div class="row">
                   <div class="col-lg-12">
-                    <!-- Yearly Breakup -->
                     <div class="card row1-box-shadow overflow-hidden">
                       <div class="card-body p-4">
-                        <h5 class="card-title mb-9 fw-semibold">Quarterly Trend(current vs Last Quarter)</h5>
+                        <h5 class="card-title mb-9 fw-semibold">Quarterly Trend (current vs Last Quarter)</h5>
                         <div class="row align-items-center">
                           <div class="col-8">
-                            <h4 class="fw-semibold mb-3">406</h4>
+                            <h4 class="fw-semibold mb-3" id="quarterlyTrendValue">406</h4>
                             <div class="d-flex align-items-center mb-3">
                               <span
                                 class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-arrow-up-left text-success"></i>
                               </span>
-                              <p class="text-dark me-1 fs-3 mb-0">+7%</p>
+                              <p class="text-dark me-1 fs-3 mb-0" id="quarterlyTrendPercentage">+7%</p>
                               <p class="fs-3 mb-0">more parts acquired</p>
                             </div>
                             <div class="d-flex align-items-center">
@@ -298,30 +310,21 @@
                     </div>
                   </div>
                   <div class="col-lg-12">
-                    <!-- Monthly Earnings -->
                     <div class="card row1-box-shadow">
                       <div class="card-body">
-                        <div class="row alig n-items-start">
+                        <div class="row align-items-start">
                           <div class="col-8">
-                            <h5 class="card-title mb-9 fw-semibold">Pending open Tasks</h5>
-                            <h4 class="fw-semibold mb-3">9</h4>
+                            <h5 class="card-title mb-9 fw-semibold">Pending Open Tasks</h5>
+                            <h4 class="fw-semibold mb-3" id="pendingTasksValue">9</h4>
                             <div class="d-flex align-items-center pb-1">
                               <span
                                 class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
                                 <i class="ti ti-arrow-down-right text-danger"></i>
                               </span>
-                              <p class="text-dark me-1 fs-3 mb-0">-10.2%</p>
+                              <p class="text-dark me-1 fs-3 mb-0" id="pendingTasksPercentage">-10.2%</p>
                               <p class="fs-3 mb-0">Since last month</p>
                             </div>
                           </div>
-                          <!-- <div class="col-4">
-                        <div class="d-flex justify-content-end">
-                          <div
-                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-currency-dollar fs-6"></i>
-                          </div>
-                        </div>
-                      </div> -->
                         </div>
                       </div>
                       <div id="earning"></div>
@@ -448,13 +451,7 @@
           </div>
         </div>
       </div>
-      <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
-      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'js/sidebarmenu.js' %}"></script>
-      <script src="{% static 'js/app.min.js' %}"></script>
-      <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
-      <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
-      <script src="{% static 'js/dashboard.js' %}"></script>
+
       <script>
 
         function searchTable() {
@@ -482,9 +479,66 @@
           }
         }
       </script>
-
       <script>
-        const countries = ['Poland'];
+        // Example data structure for each country
+        const dataByCountry = {
+          Poland: {
+            quarterlyTrendValue: 406,
+            quarterlyTrendPercentage: '+7%',
+            pendingTasksValue: 9,
+            pendingTasksPercentage: '-10.2%'
+          },
+          USA: {
+            quarterlyTrendValue: 500,
+            quarterlyTrendPercentage: '+5%',
+            pendingTasksValue: 12,
+            pendingTasksPercentage: '-8.5%'
+          }
+          // Add more countries and their data as needed
+        };
+
+        // Function to update UI elements based on selected country
+        function updateUI(country) {
+          const data = dataByCountry[country] || dataByCountry['Poland'];
+    
+
+          // Update Quarterly Trend
+          document.getElementById('quarterlyTrendValue').innerText = data.quarterlyTrendValue;
+          document.getElementById('quarterlyTrendPercentage').innerText = data.quarterlyTrendPercentage;
+
+          // Update Pending Open Tasks
+          document.getElementById('pendingTasksValue').innerText = data.pendingTasksValue;
+          document.getElementById('pendingTasksPercentage').innerText = data.pendingTasksPercentage;
+          
+        }
+
+        // Function to select a country and update UI
+        function selectCountry(country) {
+          document.getElementById('dropDownMenuButton').innerText = country;
+          localStorage.setItem('selectedCountry', country);
+          updateUI(country);
+          populateTable();
+        }
+
+        // Function to update dropdown from storage
+        function updateDropdownFromStorage() {
+          const selectedCountry = localStorage.getItem('selectedCountry');
+          if (selectedCountry) {
+            document.getElementById('dropDownMenuButton').innerText = selectedCountry;
+            updateUI(selectedCountry);
+          } else {
+            selectCountry(countries[0]);
+          }
+        }
+
+        // Initialize UI based on stored country
+        document.addEventListener('DOMContentLoaded', function () {
+          updateDropdownFromStorage();
+          populateTable();
+        });
+      </script>
+      <script>
+        const countries = ['Poland', 'USA'];
 
         function renderDropdown() {
           const dropdownMenu = document.getElementById('countryDropdown');
@@ -508,9 +562,9 @@
           })
         }
 
-        function selectCountry(country) {
-          document.getElementById('dropDownMenuButton').innerText = country;
-        }
+        // function selectCountry(country) {
+        //   document.getElementById('dropDownMenuButton').innerText = country;
+        // }
 
         renderDropdown();
       </script>
@@ -563,7 +617,7 @@
         });
       </script>
 
-      <script src="{% static 'js/srp.js' %}"></script>
+
 </body>
 
 </html>

@@ -52,34 +52,38 @@ CORS(app)
 # EXCEL_FILE_PATH = os.path.join(os.path.dirname(__file__), 'data.xlsx')
 EXCEL_FILE_PATH = r'D:\GenAI\AssetPrediction_django\AssetPredictionLavanyaCode\asset_ver1\req\data\srp_new.xlsx'  
 
+# Define paths for each country
+EXCEL_FILE_PATHS = {
+    'Poland': r'D:\GenAI\AssetPrediction_django\AssetPredictionLavanyaCode\asset_ver1\req\data\srp_new.xlsx',
+    'USA': r'D:\GenAI\AssetPrediction_django\AssetPredictionLavanyaCode\asset_ver1\req\data\USABB_srp.xlsx',
+    # Add more countries and their paths as needed
+}
+
+def get_excel_file_path(country):
+    return EXCEL_FILE_PATHS.get(country, EXCEL_FILE_PATHS['Poland'])
+
 @app.route('/update_excel', methods=['POST'])
 def update_excel():
-    if not os.path.exists(EXCEL_FILE_PATH):
+    country = request.args.get('country', 'Poland')
+    excel_file_path = get_excel_file_path(country)
+
+    if not os.path.exists(excel_file_path):
         return jsonify({"error": "Excel file not found."}), 404
 
     try:
-        # Read the Excel file
-        df = pd.read_excel(EXCEL_FILE_PATH)
-
-        # Add "Final Total Qty" column if it doesn't exist
+        df = pd.read_excel(excel_file_path)
         if 'Final Total Qty' not in df.columns:
             df['Final Total Qty'] = 0
 
-        # Get the data from the request
         data = request.json
-
-        # Update the DataFrame with the new values
         for item in data:
             part_number = item['Part_Number']
             location = item['City']
-            # Find the row to update
             df.loc[(df['Part_Number'] == part_number) & (df['Location'] == location), 'Wipro Team Suggestion'] = item['Wipro Team Suggestion']
             df.loc[(df['Part_Number'] == part_number) & (df['Location'] == location), 'Country Suggestion'] = item['Country Suggestion']
             df.loc[(df['Part_Number'] == part_number) & (df['Location'] == location), 'Final Total Qty'] = item['Final Total Qty']
 
-        # Save the updated DataFrame back to the Excel file
-        df.to_excel(EXCEL_FILE_PATH, index=False)
-
+        df.to_excel(excel_file_path, index=False)
         return jsonify({"message": "Excel file updated successfully."})
 
     except Exception as e:
@@ -87,26 +91,27 @@ def update_excel():
 
 @app.route('/download_excel', methods=['GET'])
 def download_excel():
-    if not os.path.exists(EXCEL_FILE_PATH):
+    country = request.args.get('country', 'Poland')
+    excel_file_path = get_excel_file_path(country)
+
+    if not os.path.exists(excel_file_path):
         return jsonify({"error": "Excel file not found."}), 404
 
     try:
-        # Create the filename with the specified format
         current_date = datetime.now().strftime("%d%m%Y")
         filename = f"PL–AISRP–{current_date}.xlsx"
-
-        return send_file(EXCEL_FILE_PATH, as_attachment=True, download_name=filename)
+        return send_file(excel_file_path, as_attachment=True, download_name=filename)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @app.route('/convert', methods=['GET'])
 def convert_excel():
+    country = request.args.get('country', 'Poland')
+    excel_file_path = get_excel_file_path(country)
+
     try:
-        # Read Excel file from the global path
-        df = pd.read_excel(EXCEL_FILE_PATH, sheet_name='Sheet1')
+        df = pd.read_excel(excel_file_path, sheet_name='Sheet1')
         df = df[['Location', 'Part_Number', 'Pending_Task', 'Instock', 'quantity_on_order', 'Final Total Qty', 'Proposal Id', 'ModelName', 'CC', 'Location_City', 'Order Calculation \nBased On']]
-        
-        # Rename columns
         df.rename(columns={
             'Pending_Task': 'Demand_Qty',
             'Instock': 'Qty_in_Stock',
@@ -114,35 +119,45 @@ def convert_excel():
             'Final Total Qty': 'Qty_to_Order',
             'ModelName': 'Model_Short_Name'
         }, inplace=True)
-        
-        # Filter rows
         df = df[(df['Order Calculation \nBased On'] != "Guaranteed Essential Accessories") & (df['Qty_to_Order'] != 0)]
-        
-        # Add current date
         current_date = datetime.now().strftime("%Y-%m-%d")
         df['Request_Date'] = current_date
-        
-        # Select columns
         expected_out_order = ['Request_Date', 'Location', 'Part_Number', 'Demand_Qty', 'Qty_in_Stock', 'Qty_in_Order', 'Qty_to_Order', 'Proposal Id', 'Model_Short_Name', 'CC', 'Location_City']
         available_columns = [col for col in expected_out_order if col in df.columns]
         df = df[available_columns]
-        
-        # Write to an in-memory bytes buffer
+
         output = BytesIO()
         df.to_excel(output, index=False, engine='xlsxwriter')
-        output.seek(0)  # Rewind the buffer
+        output.seek(0)
 
-        # Create the filename with the specified format
         filename = f"PL-AISRP-{datetime.now().strftime('%d%m%Y')}-DAAS.xlsx"
-
-        # Send file
         return send_file(output, as_attachment=True, download_name=filename, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
 @app.route('/dashboardpq', methods=['GET'])
 def get_excel_data():
+    country = request.args.get('country', 'Poland')
+    excel_file_path = get_excel_file_path(country)
+
+    if not os.path.exists(excel_file_path):
+        return jsonify({"error": "Excel file not found."}), 404
+
+    try:
+        df = pd.read_excel(excel_file_path)
+        df = df[['Part_Number', 'Location', 'Location_City', 'ModelName', 'Trend_fit', 'Price', 'Amount',"quantity_to_order(calc)",'avg_demand_per_month','Pending_Task','Instock','quantity_on_order','Wipro Team Suggestion','Country Suggestion','Final Total Qty']]
+        df["Difference"]=df["Trend_fit"]-df["quantity_to_order(calc)"]
+        df["Amount"] = (df["Final Total Qty"] * df["Price"]).round(2)
+        df["Difference"]= df['Difference'].apply(lambda x: f"{int(x):+d}" if pd.notnull(x) else "")
+        df["avg_demand_per_month"] = df["avg_demand_per_month"].round(2)
+        df = df.rename(columns={'Part_Number': 'Part_Number', 'Location': 'City', 'quantity_to_order(calc)' : 'Quantity', 'Price' : 'Unit_Cost', 'Amount' : 'Total_Cost'})
+        df = df.sort_values(by='Quantity', ascending=False, inplace=False)
+        data = df.to_dict(orient='records')
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
     if not os.path.exists(EXCEL_FILE_PATH):
         return jsonify({"error": "Excel file not found."}), 404
 

@@ -20,6 +20,23 @@ var productjs = [
     { "Part_Number": "4XD1M45626", "Location_City": "Not Given", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [0, 0, 0, 0, 0, 0], "Predicted": [0, 0, 0, 0, 0, 2] }
 ];
 
+var productjsUSA = [
+    { "Part_Number": "12TES41Q27", "Location_City": "9AAE105302", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [10, 15, 20, 25, 30, 51], "Predicted": [0, 0, 0, 0, 0, 135] },
+    { "Part_Number": "21L2S4EH2A", "Location_City": "9AAE104092", "Inventory": [0, 0, 0, 0, 0, 13], "Avg_demand": [5, 10, 15, 20, 25, 26], "Predicted": [0, 0, 0, 0, 0, 51] },
+    { "Part_Number": "12TES41Q27", "Location_City": "9AAE105436", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [3, 6, 9, 12, 15, 14.33], "Predicted": [0, 0, 0, 0, 0, 46] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE105302", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [2, 4, 6, 8, 10, 9.83], "Predicted": [0, 0, 0, 0, 0, 29] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE104369", "Inventory": [0, 0, 0, 0, 0, 1], "Avg_demand": [1, 2, 3, 4, 5, 9.17], "Predicted": [0, 0, 0, 0, 0, 27] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE102404", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [2, 3, 4, 5, 6, 11.83], "Predicted": [0, 0, 0, 0, 0, 14] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE101016", "Inventory": [0, 0, 0, 0, 0, 4], "Avg_demand": [1, 2, 3, 4, 5, 7.17], "Predicted": [0, 0, 0, 0, 0, 11] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE101968", "Inventory": [0, 0, 0, 0, 0, 6], "Avg_demand": [1, 2, 3, 4, 5, 6.5], "Predicted": [0, 0, 0, 0, 0, 9] },
+    { "Part_Number": "21L2S4EH2A", "Location_City": "9AAE105302", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [2, 4, 6, 8, 10, 22.17], "Predicted": [0, 0, 0, 0, 0, 8] },
+    { "Part_Number": "21L2S4EH2A", "Location_City": "9AAE101016", "Inventory": [0, 0, 0, 0, 0, 18], "Avg_demand": [1, 2, 3, 4, 5, 10.83], "Predicted": [0, 0, 0, 0, 0, 6] },
+    { "Part_Number": "21L2S4EH2A", "Location_City": "9AAE102404", "Inventory": [0, 0, 0, 0, 0, 5], "Avg_demand": [1, 2, 3, 4, 5, 7.83], "Predicted": [0, 0, 0, 0, 0, 5] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE104357", "Inventory": [0, 0, 0, 0, 0, 8], "Avg_demand": [0, 1, 2, 3, 4, 2.5], "Predicted": [0, 0, 0, 0, 0, 5] },
+    { "Part_Number": "21L2S4EH2A", "Location_City": "9AAE105436", "Inventory": [0, 0, 0, 0, 0, 0], "Avg_demand": [1, 2, 3, 4, 5, 13.17], "Predicted": [0, 0, 0, 0, 0, 3] },
+    { "Part_Number": "21LVS4NG2A", "Location_City": "9AAE104092", "Inventory": [0, 0, 0, 0, 0, 6], "Avg_demand": [1, 2, 3, 4, 5, 17.33], "Predicted": [0, 0, 0, 0, 0, 1] }
+];
+
 // Default data for chart rendering
 // alert("HI12");
 const dummyinventory = [100, 100, 100, 100, 100, 100];
@@ -61,33 +78,42 @@ fetchData123();
 
 // Populate the table with data
 async function populateTable() {
-    var Url_path = "http://127.0.0.1:5000/dashboardpq";
-    var jsonData = await getdata('http://127.0.0.1:5000/dashboardpq');
-    // var jsonData = await getdata('https://piranha-robust-polliwog.ngrok-free.app/dashboardpq');
-    // console.log(jsonData);
+    // Retrieve the selected country from local storage or default to 'Poland'
+    const selectedCountry = localStorage.getItem('selectedCountry') || 'Poland';
+    console.log(selectedCountry);
+
+    // Construct the URL with the country query parameter
+    const urlPath = `http://127.0.0.1:5000/dashboardpq?country=${selectedCountry}`;
+
+    // Fetch data from the API with the country parameter
+    const jsonData = await getdata(urlPath);
+
     const tableBody = document.querySelector('#predQuantityTable tbody');
     const tableBody1 = document.querySelector('#EOLTable');
+
+    // Clear existing table data
+    tableBody.innerHTML = '';
+    tableBody1.innerHTML = '';
+
+    // Choose the correct dataset based on the selected country
+    const productData = selectedCountry === 'USA' ? productjsUSA : productjs;
 
     jsonData.forEach((item, index) => {
         // Skip rows where ModelName is zero
         if (item.ModelName === 0 && item.Quantity === 0) {
             return;  // Skip to the next iteration
         }
-        // 
+
         if (item.ModelName === 0 && item.Quantity !== 0) {
             const row = document.createElement('tr');
             row.innerHTML = `
-            <td class="border-bottom-0"><h6 class="fw-semibold mb-1">${item.Part_Number}</h6></td>
-            <td class="border-bottom-0"> <input type="text" class="form-control" value=${item.ModelName} ></td>
-            <td class="border-bottom-0"><div class="d-flex align-items-center gap-2"><p class="mb-0 fw-normal">${item.City}</p></div></td>
-            
-            <td class="border-bottom-0"><h6 class="fw-semibold mb-0 fs-4">${item.Quantity}</h6></td>
-            <td class="border-bottom-0"> <input type="text" class="form-control" value=${item.Unit_Cost} ></td>
-            
-
-            
-            <td class="border-bottom-0"><p class="fw-semibold mb-0 fs-4">PLN</p></td>
-        `;
+                <td class="border-bottom-0"><h6 class="fw-semibold mb-1">${item.Part_Number}</h6></td>
+                <td class="border-bottom-0"> <input type="text" class="form-control" value=${item.ModelName} ></td>
+                <td class="border-bottom-0"><div class="d-flex align-items-center gap-2"><p class="mb-0 fw-normal">${item.City}</p></div></td>
+                <td class="border-bottom-0"><h6 class="fw-semibold mb-0 fs-4">${item.Quantity}</h6></td>
+                <td class="border-bottom-0"> <input type="text" class="form-control" value=${item.Unit_Cost} ></td>
+                <td class="border-bottom-0"><p class="fw-semibold mb-0 fs-4">PLN</p></td>
+            `;
             tableBody1.appendChild(row);
             return;  // Skip to the next iteration
         }
@@ -112,7 +138,7 @@ async function populateTable() {
 
             const selectedProduct = item["Part_Number"];
             const selectedLocation = item.City;
-            const selectedProductData = productjs.find(prodItem => prodItem.Part_Number === selectedProduct && prodItem.Location_City === selectedLocation);
+            const selectedProductData = productData.find(prodItem => prodItem.Part_Number === selectedProduct && prodItem.Location_City === selectedLocation);
             if (selectedProductData) {
                 updateBarChart(selectedProductData.Inventory, selectedProductData.Avg_demand, selectedProductData.Predicted);
             }
@@ -128,7 +154,7 @@ async function populateTable() {
         const firstItem = jsonData[0];
         const selectedProduct = firstItem["Part_Number"];
         const selectedLocation = firstItem.City;
-        const selectedProductData = productjs.find(prodItem => prodItem.Part_Number === selectedProduct && prodItem.Location_City === selectedLocation);
+        const selectedProductData = productData.find(prodItem => prodItem.Part_Number === selectedProduct && prodItem.Location_City === selectedLocation);
         if (selectedProductData) {
             updateBarChart(selectedProductData.Inventory, selectedProductData.Avg_demand, selectedProductData.Predicted);
         }
@@ -181,7 +207,7 @@ function updateBarChart(inventory1 = dummyinventory, Intransit1 = dummyIntransit
         yaxis: {
             show: true,
             min: 0,
-            max: 75,
+            max: 140,
             tickAmount: 4,
             labels: { style: { cssClass: "grey--text lighten-2--text fill-color" } }
         },

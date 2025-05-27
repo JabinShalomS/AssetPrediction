@@ -18,6 +18,12 @@
       width: 100px;
     }
   </style>
+  <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/sidebarmenu.js' %}"></script>
+  <script src="{% static 'js/app.min.js' %}"></script>
+  <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+  <script src="{% static 'js/srp_data.js' %}"></script>
 </head>
 
 <body>
@@ -26,7 +32,7 @@
     <aside class="left-sidebar">
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
-            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="70" alt="" /><span
               class="ml-2 asset-prediction">Asset Prediction</span></a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
               class="ti ti-x fs-8"></i></div>
@@ -195,14 +201,10 @@
         </div>
       </footer>
 
-      <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
-      <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'js/sidebarmenu.js' %}"></script>
-      <script src="{% static 'js/app.min.js' %}"></script>
-      <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
-      <script src="{% static 'js/srp_data.js' %}"></script>
+
       <script>
-        const countries = ['Poland'];
+
+        const countries = ['Poland', 'USA']; // Add more countries as needed
 
         function renderDropdown() {
           const dropdownMenu = document.getElementById('countryDropdown');
@@ -219,146 +221,27 @@
             };
             listItem.appendChild(anchorItem);
             dropdownMenu.appendChild(listItem);
+          });
 
-            if (index === 0) {
-              selectCountry(country);
-            }
-          })
+          // Set the dropdown to the stored country or default to the first country
+          const storedCountry = localStorage.getItem('selectedCountry') || countries[0];
+          selectCountry(storedCountry);
         }
 
         function selectCountry(country) {
           document.getElementById('dropDownMenuButton').innerText = country;
+          localStorage.setItem('selectedCountry', country);
+          // populateTable();
+
         }
 
-        renderDropdown();
+        // Initialize the dropdown and set the selected country on page load
+        document.addEventListener('DOMContentLoaded', function () {
+          renderDropdown();
+          // populateTable();
+        });
       </script>
 
-
-      
-      <script>
-
-
-        // var headers = Object.keys(predictedQuantity[0]);
-        // headers.push('Final Total Qty'); // Add the new header
-        // var headerRow = $('<tr>');
-        // headers.forEach(function (header) {
-        //   headerRow.append($('<th style="text-transform: capitalize;">').text(header.replace('_', ' ')));
-        // });
-        // $('#table-header').append(headerRow);
-
-        // predictedQuantity.forEach(function (item, index) {
-        //   var row = $('<tr>');
-        //   headers.forEach(function (header) {
-        //     var cellValue = item[header];
-        //     if (typeof cellValue === 'object' && cellValue !== null) {
-        //       cellValue = cellValue.part_number || '';
-        //     }
-
-        //     if (header === 'Wipro Team Suggestion') {
-        //       var input = $('<input class="form-control inputWidth">').attr('type', 'number').val(cellValue);
-        //       input.on('input', function () {
-        //         item[header] = parseInt($(this).val()) || 0;
-        //         updateFinalTotalQty(item, row);
-        //       });
-        //       row.append($('<td>').append(input));
-        //     } else if (header === 'Final Total Qty') {
-        //       var finalTotalCell = $('<td>').text(calculateFinalTotal(item));
-        //       row.append(finalTotalCell);
-        //     } else {
-        //       row.append($('<td>').text(cellValue));
-        //     }
-        //   });
-        //   $('#table-body').append(row);
-        // });
-
-        // function calculateFinalTotal(item) {
-        //   return item['predicted_quantity'] + item['Wipro Team Suggestion'] + item['Country Suggestion'];
-        // }
-
-        // function updateFinalTotalQty(item, row) {
-        //   var finalTotalCell = row.find('td').eq(headers.indexOf('Final Total Qty'));
-        //   finalTotalCell.text(calculateFinalTotal(item));
-        // }
-        // document.addEventListener('DOMContentLoaded', function () {
-        //   const submitButton = document.getElementById('submit-button');
-        //   const downloadButton = document.getElementById('download-button');
-        //   const approveButton = document.getElementById('approve-button');
-        //   const rejectButton = document.getElementById('reject-button');
-
-        //   const isCountryTeam = true; // Set this flag based on your logic
-
-        //   if (isCountryTeam) {
-        //     approveButton.style.display = 'inline-block';
-        //     rejectButton.style.display = 'inline-block';
-        //   }
-
-        //   function submitData() {
-        //     const updatedData = [];
-        //     $('#table-body tr').each(function () {
-        //       const row = $(this);
-        //       const wiproSuggestion = isCountryTeam ? parseInt(row.find('td').eq(4).text()) || 0 : parseInt(row.find('input').eq(0).val()) || 0;
-        //       const countrySuggestion = isCountryTeam ? parseInt(row.find('input').eq(0).val()) || 0 : parseInt(row.find('td').eq(5).text()) || 0;
-
-        //       const item = {
-        //         'Part_Number': row.find('td').eq(0).text(),
-        //         'City': row.find('td').eq(1).text(),
-        //         'ModelName': row.find('td').eq(2).text(),
-        //         'Trend_fit': parseInt(row.find('td').eq(3).text()) || 0,
-        //         'Wipro Team Suggestion': wiproSuggestion,
-        //         'Country Suggestion': countrySuggestion,
-        //         'Final Total Qty': parseInt(row.find('td').eq(6).text()) || 0
-        //       };
-        //       updatedData.push(item);
-        //     });
-
-        //     // Send the updated data to the server
-        //     fetch('http://127.0.0.1:5000/update_excel', {
-        //       method: 'POST',
-        //       headers: {
-        //         'Content-Type': 'application/json'
-        //       },
-        //       body: JSON.stringify(updatedData)
-        //     })
-        //       .then(response => response.json())
-        //       .then(data => {
-        //         console.log('Success:', data);
-        //         alert('SRP details updated successfully.');
-        //         populateTable();
-        //         downloadButton.disabled = false;
-        //         downloadButton.classList.remove('btn-secondary');
-        //         downloadButton.classList.add('btn-primary');
-        //       })
-        //       .catch((error) => {
-        //         console.error('Error:', error);
-        //         alert('An error occurred while updating the Excel file.');
-        //       });
-        //   }
-
-        //   submitButton.addEventListener('click', submitData);
-
-        //   approveButton.addEventListener('click', submitData);
-
-        //   rejectButton.addEventListener('click', function () {
-        //     $('#table-body tr').each(function () {
-        //       const row = $(this);
-        //       row.find('td').eq(6).text('0'); // Set Final Total Qty to zero
-        //     });
-        //     // Hide the Final Total Qty column
-        //     $('#table-header th').eq(6).hide();
-        //     $('#table-body td:nth-child(7)').hide();
-        //   });
-
-        //   $('#table-body').on('input', 'input', function () {
-        //     // Show the Final Total Qty column when any input is changed
-        //     $('#table-header th').eq(6).show();
-        //     $('#table-body td:nth-child(7)').show();
-        //   });
-
-        //   downloadButton.addEventListener('click', function () {
-        //     window.location.href = 'http://127.0.0.1:5000/download_excel';
-        //   });
-        // });
-      </script>
 
 </body>
 

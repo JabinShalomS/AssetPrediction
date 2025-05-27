@@ -26,7 +26,7 @@
     <aside class="left-sidebar">
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between"><a href="/src/html/"
-            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="50" alt="" /><span
+            class="text-nowrap logo-img"><img src="{% static 'images/logos/wipro_logo.png' %}" width="70" alt="" /><span
               class="ml-2 asset-prediction">Asset Prediction</span></a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse"><i
               class="ti ti-x fs-8"></i></div>
@@ -204,13 +204,13 @@
       <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
       <script src="{% static 'js/approved_srp.js' %}"></script>
       <script>
-        const countries = ['Poland'];
+        const countries = ['Poland', 'USA']; // Add more countries as needed
 
         function renderDropdown() {
           const dropdownMenu = document.getElementById('countryDropdown');
           dropdownMenu.innerHTML = '';
 
-          countries.forEach((country, index) => {
+          countries.forEach(country => {
             const listItem = document.createElement('li');
             const anchorItem = document.createElement('a');
             anchorItem.classList.add('dropdown-item');
@@ -221,15 +221,24 @@
             };
             listItem.appendChild(anchorItem);
             dropdownMenu.appendChild(listItem);
+          });
 
-            if (index === 0) {
-              selectCountry(country);
-            }
-          })
+          // Set the dropdown to the stored country or default to the first country
+          const storedCountry = localStorage.getItem('selectedCountry') || countries[0];
+          selectCountry(storedCountry);
         }
 
         function selectCountry(country) {
           document.getElementById('dropDownMenuButton').innerText = country;
+          localStorage.setItem('selectedCountry', country);
+          // Call a function to update the data displayed based on the selected country
+          updateDataForCountry(country);
+        }
+
+        function updateDataForCountry(country) {
+          // This function should handle fetching or displaying data specific to the selected country
+          console.log(`Updating data for country: ${country}`);
+          // Example: Fetch data from an API or update the UI elements
         }
 
         renderDropdown();
@@ -247,10 +256,16 @@
           const date = new Date(srpStatus.timestamp);
           const formattedDate = `${String(date.getDate()).padStart(2, '0')}${String(date.getMonth() + 1).padStart(2, '0')}${date.getFullYear()}`;
 
+          // Retrieve the selected country from local storage
+          const selectedCountry = localStorage.getItem('selectedCountry') || 'Poland';
+
+          // Determine prefix based on country
+          const prefix = selectedCountry === 'USA' ? 'US' : 'PL';
+
           // Populate the table with the SRP status
           const row = document.createElement('tr');
           row.innerHTML = `
-      <td>PL – AISRP – ${formattedDate}</td>
+      <td>${prefix} – AISRP – ${formattedDate}</td>
       <td><a href="#" id="download-link" class="btn btn-primary">Download</a></td>
       <td>${srpStatus.timestamp}</td>
       <td>Abhishek Anand</td>
@@ -259,14 +274,19 @@
           tableBody.appendChild(row);
         });
 
-
         document.addEventListener('DOMContentLoaded', function () {
           const downloadLink = document.getElementById('download-link');
 
           downloadLink.addEventListener('click', function (event) {
             event.preventDefault(); // Prevent default link behavior
 
-            fetch('http://127.0.0.1:5000/convert', {
+            // Retrieve the selected country from local storage
+            const selectedCountry = localStorage.getItem('selectedCountry') || 'Poland';
+
+            // Construct the URL with the country query parameter
+            const urlPath = `http://127.0.0.1:5000/convert?country=${selectedCountry}`;
+
+            fetch(urlPath, {
               method: 'GET'
             })
               .then(response => {
@@ -279,7 +299,7 @@
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `PL-AISRP-${new Date().toLocaleDateString('en-GB').replace(/\//g, '')}-DAAS.xlsx`;
+                a.download = `${selectedCountry}-AISRP-${new Date().toLocaleDateString('en-GB').replace(/\//g, '')}-DAAS.xlsx`;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
