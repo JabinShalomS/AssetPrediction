@@ -35,42 +35,56 @@
       msalInstance.loginRedirect(loginRequest);
     }
 
-    function handleResponse(response) {
-      console.log('Handling redirect response');
-      if (response !== null) {
-        console.log('Authentication response:', response);
-        msalInstance.acquireTokenSilent(loginRequest).then(tokenResponse => {
-          console.log('Token acquired:', tokenResponse);
-          fetch('https://graph.microsoft.com/v1.0/me', {
-            headers: {
-              'Authorization': `Bearer ${tokenResponse.accessToken}`
-            }
-          })
-            .then(response => {
-              console.log('Fetch response:', response);
-              return response.json();
-            })
-            .then(user => {
-              console.log('User data:', user);
-              localStorage.setItem('userEmail', user.mail || user.userPrincipalName);
-              console.log('User Email stored:', user.mail || user.userPrincipalName);
-            })
-            .catch(error => {
-              console.error('Error fetching user information:', error);
-            });
-        }).catch(error => {
-          console.error('Error acquiring token silently:', error);
-        });
-      } else {
-        console.log('No authentication response received.');
-      }
-    }
 
-    window.onload = function() {
+    // function handleResponse(response) {
+    //   console.log('Handling redirect response');
+    //   if (response !== null) {
+    //     console.log('Authentication response:', response);
+    //     // Microsoft Graph API part removed
+    //   } else {
+    //     console.log('No authentication response received.');
+    //   }
+    // }
+
+
+    // function handleResponse(response) {
+    //   console.log('Handling redirect response');
+    //   if (response !== null) {
+    //     console.log('Authentication response:', response);
+    //     // Get account info from MSAL
+    //     const accounts = msalInstance.getAllAccounts();
+    //     if (accounts.length > 0) {
+    //       const email = accounts[0].username;
+    //       console.log('User Email:', email);
+    //     }
+    //   } else {
+    //     console.log('No authentication response received.');
+    //   }
+    // }
+
+    window.onload = function () {
       console.log('Page loaded, handling redirect');
-      msalInstance.handleRedirectPromise().then(handleResponse).catch(error => {
-        console.error('Error handling redirect:', error);
-      });
+
+      msalInstance.handleRedirectPromise()
+        .then(response => {
+          console.log('Handling redirect response');
+          if (response !== null) {
+            console.log('Authentication response:', response);
+          } else {
+            console.log('No authentication response received.');
+          }
+
+          // Get account info directly here
+          const accounts = msalInstance.getAllAccounts();
+          if (accounts.length > 0) {
+            const email = accounts[0].username;
+            console.log('User Email:', email);
+          }
+        })
+        .catch(error => {
+          alert('Error handling redirect: ');
+          console.error('Error handling redirect:', error);
+        });
     };
   </script>
   <style>
